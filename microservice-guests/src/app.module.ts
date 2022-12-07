@@ -9,10 +9,11 @@ import { GuestModule } from './guest/guest.module';
   imports: [
     ConfigModule.forRoot({
       envFilePath: ['.env.development'],
-      isGlobal: true
+      isGlobal: true,
     }),
     MongooseModule.forRoot(process.env.URI_MONGODB),
-    ,GuestModule],
+    GuestModule,
+  ],
   controllers: [AppController],
   providers: [AppService],
 })
