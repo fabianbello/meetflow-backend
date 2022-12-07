@@ -5,7 +5,7 @@ import { IGuest } from 'src/common/interfaces/guest.interface';
 import { ClientProxyMeetflow } from 'src/common/proxy/client.proxy';
 import { GuestDTO } from './dto/guest.dto';
 
-@Controller('guest')
+@Controller('api/guest')
 export class GuestController {
     constructor(private readonly clientProxy: ClientProxyMeetflow){}
 

@@ -4,6 +4,7 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { UserModule } from './user/user.module';
 import { GuestModule } from './guest/guest.module';
+import { ProjectModule } from './project/project.module';
 
 @Module({
   imports: [
@@ -12,7 +13,8 @@ import { GuestModule } from './guest/guest.module';
       isGlobal: true,
     }),
     UserModule,
-    GuestModule
+    GuestModule,
+    ProjectModule
   ],
   controllers: [AppController],
   providers: [AppService],

@@ -27,7 +27,6 @@ export enum RabbitMQ {
       FIND_ONE = 'FIND_PROJECT',
       UPDATE = 'UPDATE_PROJECT',
       DELETE = 'DELETE_PROJECT',
-      VALID_USER = 'VALID_PROJECT',
       ADD_GUEST = 'ADD_GUEST'
     }
     
