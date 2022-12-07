@@ -1,18 +1,28 @@
-import { Body, Controller, Delete, Get, Param, Post, Put } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Post,
+  Put,
+} from '@nestjs/common';
+import { ApiTags } from '@nestjs/swagger';
 import { Observable } from 'rxjs';
 import { GuestMSG } from 'src/common/constants';
 import { IGuest } from 'src/common/interfaces/guest.interface';
 import { ClientProxyMeetflow } from 'src/common/proxy/client.proxy';
 import { GuestDTO } from './dto/guest.dto';
 
+@ApiTags('guests')
 @Controller('api/guest')
 export class GuestController {
-    constructor(private readonly clientProxy: ClientProxyMeetflow){}
+  constructor(private readonly clientProxy: ClientProxyMeetflow) {}
 
-    // Invitados
-    private _clientProxyGuest = this.clientProxy.clientProxyGuest();
+  // Invitados
+  private _clientProxyGuest = this.clientProxy.clientProxyGuest();
 
-    @Post()
+  @Post()
   create(@Body() guestDTO: GuestDTO): Observable<IGuest> {
     return this._clientProxyGuest.send(GuestMSG.CREATE, guestDTO);
   }
@@ -28,7 +38,10 @@ export class GuestController {
   }
 
   @Put(':id')
-  update(@Param('id') id: string, @Body() guestDTO: GuestDTO): Observable<IGuest> {
+  update(
+    @Param('id') id: string,
+    @Body() guestDTO: GuestDTO,
+  ): Observable<IGuest> {
     return this._clientProxyGuest.send(GuestMSG.UPDATE, { id, guestDTO });
   }
 

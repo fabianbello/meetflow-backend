@@ -1,5 +1,6 @@
 import { ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
+import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { AppModule } from './app.module';
 import { AllExceptionFilter } from './common/filters/http-exception.filter';
 import { TimeOutInterceptor } from './common/interceptors/timeout.interceptor';
@@ -12,6 +13,22 @@ async function bootstrap() {
   app.useGlobalInterceptors(new TimeOutInterceptor());
   // manejo de validaciones a respuestas globales
   app.useGlobalPipes(new ValidationPipe());
+
+  // configuracion de Swagger para documentar API
+  const options = new DocumentBuilder()
+  .setTitle('Meetflow API')
+  .setDescription('meetflow APP')
+  .setVersion('0.0.1')
+  .addBearerAuth()
+  .build();
+
+  const document = SwaggerModule.createDocument(app, options);
+
+  SwaggerModule.setup('/api/docs', app, document,{
+    swaggerOptions: {
+      filter: true,
+    }
+  })
 
   await app.listen(process.env.PORT || 3000);
   console.log('API Gateway de meetflow corriendo en el puerto: ', process.env.PORT);
