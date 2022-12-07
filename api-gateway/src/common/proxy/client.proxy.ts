@@ -11,7 +11,7 @@ import { RabbitMQ } from '../constants';
 export class ClientProxyMeetflow {
   constructor(private readonly config: ConfigService) {}
 
-  clientProxyUsers(): ClientProxy {
+  clientProxyUser(): ClientProxy {
     return ClientProxyFactory.create({
       transport: Transport.RMQ,
       options: {

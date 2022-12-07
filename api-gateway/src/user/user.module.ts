@@ -6,6 +6,5 @@ import { UserService } from './user.service';
 @Module({
   imports: [ProxyModule],
   controllers: [UserController],
-  providers: [UserService],
 })
 export class UserModule {}

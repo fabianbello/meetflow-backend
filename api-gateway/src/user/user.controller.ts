@@ -20,7 +20,7 @@ export class UserController {
   constructor(private readonly clientProxy: ClientProxyMeetflow) {}
 
   // Usuarios
-  private _clientProxyUser = this.clientProxy.clientProxyUsers();
+  private _clientProxyUser = this.clientProxy.clientProxyUser();
 
   @Post()
   create(@Body() userDTO: UserDTO): Observable<IUser> {

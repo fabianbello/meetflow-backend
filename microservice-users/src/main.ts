@@ -4,14 +4,14 @@ import { AppModule } from './app.module';
 import { RabbitMQ } from './common/constants';
 
 async function bootstrap() {
-  const app = await NestFactory.createMicroservice(AppModule,{
-    Transport: Transport.RMQ,
+  const app = await NestFactory.createMicroservice(AppModule, {
+    transport: Transport.RMQ,
     options: {
       urls: [process.env.AMQP_URL],
-      queue: RabbitMQ.UserQueue
+      queue: RabbitMQ.UserQueue,
     },
   });
   await app.listen();
-  console.log('Microservice Users esta corriendo');
+  console.log('Microservicio de Usuarios corriendo');
 }
 bootstrap();

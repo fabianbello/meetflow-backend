@@ -8,7 +8,6 @@ import { UserModule } from './user/user.module';
 
 @Module({
   imports: [
-    UserModule,
     ConfigModule.forRoot({
       envFilePath: ['.env.development'],
       isGlobal: true,
@@ -23,6 +22,7 @@ import { UserModule } from './user/user.module';
       entities: [User],
       synchronize: true, // se actualiza automaticamente (no poner en producion)
     }),
+    UserModule,
   ],
   controllers: [AppController],
   providers: [AppService],
