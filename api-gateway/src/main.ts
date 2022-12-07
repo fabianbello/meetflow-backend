@@ -19,7 +19,7 @@ async function bootstrap() {
   .setTitle('Meetflow API')
   .setDescription('meetflow APP')
   .setVersion('0.0.1')
-  .addBearerAuth()
+  .addBearerAuth() // autentication 
   .build();
 
   const document = SwaggerModule.createDocument(app, options);
