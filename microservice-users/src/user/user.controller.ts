@@ -42,18 +42,18 @@ export class UserController {
     return this.userService.delete(id);
   }
 
-  /* @Post('/validate')
-  async validateUser(@Body() payload:any){
-
+  @MessagePattern(UserMSG.VALID_USER)
+  async validateUser(@Payload() payload: any) {
     const user = await this.userService.findOneByEmail(payload.email);
 
     const isValidPassword = await this.userService.checkPassword(
       payload.password,
       user.password,
     );
-    if(user && isValidPassword){
-        return user;
+    if (user && isValidPassword) {
+      return user;
+    } else {
+      return null;
     }
-    return null;
-  } */
+  }
 }
