@@ -7,6 +7,8 @@ import {
   Post,
   Put,
 } from '@nestjs/common';
+import { MessagePattern, Payload } from '@nestjs/microservices';
+import { UserMSG } from 'src/common/constants';
 import { IUser } from 'src/common/interfaces/user.interface';
 import { RegisterUserDTO } from './dto/register-user.dto';
 import { UserDTO } from './dto/user.dto';
@@ -16,42 +18,42 @@ import { UserService } from './user.service';
 export class UserController {
   constructor(private userService: UserService) {}
 
-  @Post('/create')
-  create(@Body() userDTO: UserDTO) {
+  @MessagePattern(UserMSG.CREATE)
+  create(@Payload() userDTO: UserDTO) {
     return this.userService.create(userDTO);
   }
+  @MessagePattern(UserMSG.FIND_ALL)
+  findAll() {
+    return this.userService.findAll();
+  }
 
-  @Post('/validate')
-  async validateUser(@Body() payload: any) {
+  @MessagePattern(UserMSG.FIND_ONE)
+  findOne(@Payload() id: string) {
+    return this.userService.findOne(id);
+  }
+
+  @MessagePattern(UserMSG.UPDATE)
+  update(@Payload() payload: any) {
+    return this.userService.update(payload.id, payload.userDTO);
+  }
+
+  @MessagePattern(UserMSG.DELETE)
+  delete(@Payload() id: string) {
+    return this.userService.delete(id);
+  }
+
+  /* @Post('/validate')
+  async validateUser(@Body() payload:any){
+
     const user = await this.userService.findOneByEmail(payload.email);
 
     const isValidPassword = await this.userService.checkPassword(
       payload.password,
       user.password,
     );
-    if (user && isValidPassword) {
-      return user;
+    if(user && isValidPassword){
+        return user;
     }
     return null;
-  }
-
-  @Get()
-  findAll() {
-    return this.userService.findAll();
-  }
-
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.userService.findOne(id);
-  }
-
-  @Put(':id')
-  update(@Param('id') id: string, @Body() userDTO: UserDTO) {
-    return this.userService.update(id, userDTO);
-  }
-
-  @Delete(':id')
-  delete(@Param('id') id: string) {
-    return this.userService.delete(id);
-  }
+  } */
 }
