@@ -9,5 +9,4 @@ export const ProjectSchema = new mongoose.Schema(
   },
   { timestamps: true },
 );
-
-ProjectSchema.index({ email: 1 }, { unique: true });
+ProjectSchema.index({ name: 1 }, { unique: true });

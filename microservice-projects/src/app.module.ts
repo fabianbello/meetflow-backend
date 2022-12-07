@@ -7,12 +7,12 @@ import { ProjectModule } from './project/project.module';
 
 @Module({
   imports: [
+    ProjectModule,
     ConfigModule.forRoot({
       envFilePath: ['.env.development'],
-      isGlobal: true,
+      isGlobal: true
     }),
-    MongooseModule.forRoot(process.env.URI_MONGODB),
-    ProjectModule,
+    MongooseModule.forRoot(process.env.URI_MONGODB)
   ],
   controllers: [AppController],
   providers: [AppService],

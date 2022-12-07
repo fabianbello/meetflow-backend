@@ -11,20 +11,15 @@ import { ProjectSchema } from './schema/project.schema';
     MongooseModule.forFeatureAsync([
       {
         name: PROJECT.name,
-        useFactory: () => {
-          return ProjectSchema.plugin(require('mongoose-autopopulate'));
-        },
+        useFactory: () => ProjectSchema,
       },
       {
         name: GUEST.name,
-        useFactory: () => {
-          return GuestSchema;
-        },
-      },
-    ]),
-    ,
+        useFactory: () => GuestSchema
+      }
+    ])
   ],
   controllers: [ProjectController],
-  providers: [ProjectService],
+  providers: [ProjectService]
 })
 export class ProjectModule {}
