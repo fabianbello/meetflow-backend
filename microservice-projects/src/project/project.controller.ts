@@ -9,50 +9,42 @@ import {
   Post,
   Put,
 } from '@nestjs/common';
+import { MessagePattern, Payload } from '@nestjs/microservices';
+import { ProjectMSG } from 'src/common/constants';
 import { ProjectDTO } from './dto/project.dto';
 import { ProjectService } from './project.service';
 
 @Controller()
 export class ProjectController {
-  constructor(
-    private readonly projectService: ProjectService,
-  ) {}
+  constructor(private readonly projectService: ProjectService) {}
 
-  @Post()
-  create(@Body() projectDTO: ProjectDTO) {
+  @MessagePattern(ProjectMSG.CREATE)
+  create(@Payload() projectDTO: ProjectDTO) {
     return this.projectService.create(projectDTO);
   }
 
-  @Get()
+  @MessagePattern(ProjectMSG.FIND_ALL)
   findAll() {
     return this.projectService.findAll();
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
+  @MessagePattern(ProjectMSG.FIND_ONE)
+  findOne(@Payload() id: string) {
     return this.projectService.findOne(id);
   }
 
-  @Put(':id')
-  update(@Param('id') id: string, @Body() projectDTO: ProjectDTO) {
-    return this.projectService.update(id, projectDTO);
+  @MessagePattern(ProjectMSG.UPDATE)
+  update(@Payload() payload: any) {
+    return this.projectService.update(payload.id, payload.projectDTO);
   }
 
-  @Delete(':id')
-  delete(@Param('id') id: string) {
+  @MessagePattern(ProjectMSG.DELETE)
+  delete(@Payload() id: string) {
     return this.projectService.delete(id);
   }
 
-  /* @Post(':projectId/guest/:guestId')
-  async addGuest(
-    @Param('projectId') projectId: string,
-    @Param('guestId') guestId: string,
-  ) {
-    const guest = await this.guestService.findOne(guestId);
-    if (!guest) {
-      throw new HttpException('Guest no encontrado', HttpStatus.NOT_FOUND);
-    } else {
-      return this.projectService.addGuest(projectId, guestId);
-    }
-  } */
+  @MessagePattern(ProjectMSG.ADD_GUEST)
+  addGuest(@Payload() payload) {
+    return this.projectService.addGuest(payload.projectId, payload.guestId);
+  }
 }
