@@ -2,11 +2,8 @@ version: '3.7'
 
 services:
   app:
-    image: app_meetflow:v1
+    image: fabianbello/app_meetflow:v1
     container_name: app_meetflow
-    build:
-      context: ./api-gateway
-      dockerfile: Dockerfile
     env_file: .env
     ports:
       - 80:3000
@@ -17,11 +14,8 @@ services:
       - ms_meetflow
   
   microservice-projects:
-    image: microservice-projects:v1
+    image: fabianbello/microservice-projects:v1
     container_name: microservice-projects
-    build:
-      context: ./microservice-projects
-      dockerfile: Dockerfile
     env_file: .env
     depends_on:
       - rabbitmq
@@ -30,11 +24,8 @@ services:
       - ms_meetflow
 
   microservice-guests:
-    image: microservice-guests:v1
+    image: fabianbello/microservice-guests:v1
     container_name: microservice-guests
-    build:
-      context: ./microservice-guests
-      dockerfile: Dockerfile
     env_file: .env
     depends_on:
       - rabbitmq
@@ -43,11 +34,8 @@ services:
       - ms_meetflow
 
   microservice-users:
-    image: microservice-users:v1
+    image: fabianbello/microservice-users:v1
     container_name: microservice-users
-    build:
-      context: ./microservice-users
-      dockerfile: Dockerfile
     env_file: .env
     depends_on:
       - rabbitmq
@@ -62,6 +50,22 @@ services:
       - 5672
       - 15672
     restart: always
+    networks:
+      - ms_meetflow
+
+  mysql:
+    image: mysql:latest
+    container_name: mysql-microservice-users
+    volumes:
+      - ./sql-data/db:/var/lib/mysql
+    ports:
+      - 3306:3306
+    hostname: 'hostdbusers'
+    environment:
+      MYSQL_DATABASE: 'dbusers'
+      MYSQL_USER: 'fabian'
+      MYSQL_PASSWORD: 'admin'
+      MYSQL_ROOT_PASSWORD: 'admin'
     networks:
       - ms_meetflow
 

@@ -14,11 +14,11 @@ import { UserModule } from './user/user.module';
     }),
     TypeOrmModule.forRoot({
       type: 'mysql',
-      host: 'localhost',
-      port: 5000,
+      host: "hostdbusers",
+      port: 3306,
       username: 'root',
-      password: 'codenip',
-      database: 'database2',
+      password: 'admin',
+      database: 'dbusers',
       entities: [User],
       synchronize: true, // se actualiza automaticamente (no poner en producion)
     }),
