@@ -17,7 +17,7 @@ import { ClientProxyMeetflow } from 'src/common/proxy/client.proxy';
 import { UserDTO } from './dto/user.dto';
 
 @ApiTags('users')
-@UseGuards(JwtAuthGuard)
+/* @UseGuards(JwtAuthGuard) */
 @Controller('api/user')
 export class UserController {
   constructor(private readonly clientProxy: ClientProxyMeetflow) {}

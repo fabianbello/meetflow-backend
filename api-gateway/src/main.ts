@@ -28,9 +28,10 @@ async function bootstrap() {
     swaggerOptions: {
       filter: true,
     }
-  })
+  });
 
+  app.enableCors();
   await app.listen(process.env.PORT || 3000);
-  console.log('API Gateway de meetflow corriendo en el puerto: ', process.env.PORT);
+  console.log('API Gateway de meetflow corriendo en el puerto V2: ', process.env.PORT);
 }
 bootstrap();

@@ -19,7 +19,7 @@ import { ClientProxyMeetflow } from 'src/common/proxy/client.proxy';
 import { ProjectDTO } from './dto/project.dto';
 
 @ApiTags('projects')
-@UseGuards(JwtAuthGuard)
+/* @UseGuards(JwtAuthGuard) */
 @Controller('api/project')
 export class ProjectController {
   constructor(private readonly clientProxy: ClientProxyMeetflow) {}

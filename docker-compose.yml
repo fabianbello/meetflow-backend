@@ -2,8 +2,11 @@ version: '3.7'
 
 services:
   app:
-    image: fabianbello/app_meetflow:v1
+    image: app_meetflow:v3
     container_name: app_meetflow
+    build:
+      context: ./api-gateway
+      dockerfile: Dockerfile
     env_file: .env
     ports:
       - 80:3000
@@ -14,8 +17,11 @@ services:
       - ms_meetflow
   
   microservice-projects:
-    image: fabianbello/microservice-projects:v1
+    image: microservice-projects:v3
     container_name: microservice-projects
+    build:
+      context: ./microservice-projects
+      dockerfile: Dockerfile
     env_file: .env
     depends_on:
       - rabbitmq
@@ -24,8 +30,11 @@ services:
       - ms_meetflow
 
   microservice-guests:
-    image: fabianbello/microservice-guests:v1
+    image: microservice-guests:v3
     container_name: microservice-guests
+    build:
+      context: ./microservice-guests
+      dockerfile: Dockerfile
     env_file: .env
     depends_on:
       - rabbitmq
@@ -34,8 +43,11 @@ services:
       - ms_meetflow
 
   microservice-users:
-    image: fabianbello/microservice-users:v1
+    image: microservice-users:v3
     container_name: microservice-users
+    build:
+      context: ./microservice-users
+      dockerfile: Dockerfile
     env_file: .env
     depends_on:
       - rabbitmq
