@@ -1,0 +1,13 @@
+{
+  "dependencies": {
+    "@nestjs/config": "^2.2.0",
+    "@nestjs/microservices": "^9.2.1",
+    "@nestjs/mongoose": "^9.2.1",
+    "amqp-connection-manager": "^4.1.9",
+    "amqplib": "^0.10.3",
+    "axios": "^1.2.1",
+    "moment": "^2.29.4",
+    "mongoose": "^6.8.1",
+    "mongoose-autopopulate": "^0.16.1"
+  }
+}
