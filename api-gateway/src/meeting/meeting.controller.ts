@@ -40,6 +40,11 @@ export class MeetingController {
     return this._clientProxyMeeting.send(MeetingMSG.FIND_ONE, id);
   }
 
+  @Get('/project/:id')
+  findByProject(@Param('id') id: string): Observable<IMeeting[]> {
+    return this._clientProxyMeeting.send(MeetingMSG.FIND_BY_PROJECT, id);
+  }
+
   @Put(':id')
   update(
     @Param('id') id: string,
@@ -69,4 +74,6 @@ export class MeetingController {
       projectId,
     });
   }
+
+  
 }

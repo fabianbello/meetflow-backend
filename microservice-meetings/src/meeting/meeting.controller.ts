@@ -47,4 +47,10 @@ export class MeetingController {
   async setProject(@Payload() payload) {
     return this.meetingService.setProject(payload.meetingId,payload.projectId);
   }
+
+  @MessagePattern(MeetingMSG.FIND_BY_PROJECT)
+  findByProject(@Payload() id: string) {
+    return this.meetingService.findByProject(id);
+  }
+
 }

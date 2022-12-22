@@ -25,6 +25,10 @@ export class MeetingService {
       async findOne(id: string): Promise<IMeeting> {
         return await this.model.findById(id);
       }
+
+      async findByProject(id: string): Promise<IMeeting[]> {
+        return await this.model.where({project: [id]})
+      }
     
       async update(id: string, meetingDTO: MeetingDTO): Promise<IMeeting> {
         return await this.model.findByIdAndUpdate(id, meetingDTO, {
