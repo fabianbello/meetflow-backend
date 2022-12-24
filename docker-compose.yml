@@ -2,7 +2,7 @@ version: '3.7'
 
 services:
   app:
-    image: app_meetflow:v3
+    image: app_meetflow:v4
     container_name: app_meetflow
     build:
       context: ./api-gateway
@@ -17,7 +17,7 @@ services:
       - ms_meetflow
   
   microservice-projects:
-    image: microservice-projects:v3
+    image: microservice-projects:v4
     container_name: microservice-projects
     build:
       context: ./microservice-projects
@@ -30,7 +30,7 @@ services:
       - ms_meetflow
 
   microservice-guests:
-    image: microservice-guests:v3
+    image: microservice-guests:v4
     container_name: microservice-guests
     build:
       context: ./microservice-guests
@@ -43,10 +43,23 @@ services:
       - ms_meetflow
 
   microservice-users:
-    image: microservice-users:v3
+    image: microservice-users:v5
     container_name: microservice-users
     build:
       context: ./microservice-users
+      dockerfile: Dockerfile
+    env_file: .env
+    depends_on:
+      - rabbitmq
+    restart: always
+    networks:
+      - ms_meetflow
+
+  microservice-meetings:
+    image: microservice-meetings:v4
+    container_name: microservice-meetings
+    build:
+      context: ./microservice-meetings
       dockerfile: Dockerfile
     env_file: .env
     depends_on:
