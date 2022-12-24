@@ -11,4 +11,5 @@ export class MeetingDTO {
 
     readonly number: number;
 
+
 }
