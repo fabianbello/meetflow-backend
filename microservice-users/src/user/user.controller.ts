@@ -19,6 +19,8 @@ import { UserService } from './user.service';
 export class UserController {
   constructor(private userService: UserService, private readonly jwtService: JwtService) {}
 
+
+
   @MessagePattern(UserMSG.CREATE)
   create(@Payload() userDTO: UserDTO) {
     console.log('users6516:',userDTO);
@@ -46,26 +48,24 @@ export class UserController {
 
   @MessagePattern(UserMSG.VALID_USER)
   async validateUseri(@Payload() payload): Promise<any> {
-    console.log('users6:', payload);
+    console.log('PAYLOAD:', payload);
     const user = await this.userService.findOneByEmail(payload.email);
-    console.log('users7:',user);
+    console.log('USUARIO BASE DE DATOS:',user);
     const isValidPassword = await this.userService.checkPassword(
       payload.password,
       user.password,
     );
 
-    console.log('CONTRASEÑA 1:',user.password);
-    console.log('CONTRASEÑA 2:',payload.password);
+    console.log('CONTRASEÑA 1: base de datos',user.password);
+    console.log('CONTRASEÑA 2: ingresado por el usuario',payload.password);
     console.log('es valido?:',isValidPassword);
     if (user && isValidPassword) {
-      const payload = {
-        email: user.email,
-        id: user.id,
-      };
-      const accessToken = await this.jwtService.sign(payload);
-      return {accessToken};
+      console.log('LE RETORNAMOS al usuario validado', user);
+      return user;
+
     } else {
-      return false;
+      console.log('NO LE RETORNAMOS USUARIO INVALIDO!')
+      return null;
     }
   }
 }

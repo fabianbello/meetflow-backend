@@ -45,4 +45,14 @@ export class ProjectService {
       { new: true },
     ).populate('guests');
   }
+
+  async findAllForUser(user: any){
+
+    const projectsByUser = await this.model.find({"userOwner": user.email}); 
+    const projectsByUser2 = { hola: "hola"};
+    console.log("PROYECTOS POR EL USUARIO ", user.email);
+    console.log("PROYECTOS = ", projectsByUser);
+    return projectsByUser;
+
+  }
 }

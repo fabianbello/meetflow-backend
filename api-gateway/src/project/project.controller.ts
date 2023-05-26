@@ -8,18 +8,20 @@ import {
   Param,
   Post,
   Put,
+  Req,
   UseGuards,
 } from '@nestjs/common';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiOperation, ApiTags } from '@nestjs/swagger';
 import { Observable } from 'rxjs';
 import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
 import { GuestMSG, ProjectMSG } from 'src/common/constants';
 import { IProject } from 'src/common/interfaces/project.interface';
 import { ClientProxyMeetflow } from 'src/common/proxy/client.proxy';
 import { ProjectDTO } from './dto/project.dto';
+import { Request } from 'express';
 
 @ApiTags('projects')
-/* @UseGuards(JwtAuthGuard) */
+@UseGuards(JwtAuthGuard)
 @Controller('api/project')
 export class ProjectController {
   constructor(private readonly clientProxy: ClientProxyMeetflow) {}
@@ -34,15 +36,15 @@ export class ProjectController {
   create(@Body() projectDTO: ProjectDTO): Observable<IProject> {
     return this._clientProxyProject.send(ProjectMSG.CREATE, projectDTO);
   }
-
+/* 
   @Get()
   findAll(): Observable<IProject[]> {
     return this._clientProxyProject.send(ProjectMSG.FIND_ALL, '');
-  }
+  } */
 
   @Get(':id')
-  findOne(@Param('id') id: string): Observable<IProject> {
-    return this._clientProxyProject.send(ProjectMSG.FIND_ONE, id);
+  async findOne(@Param('id') id: string) {
+    return await this._clientProxyProject.send(ProjectMSG.FIND_ONE, id);
   }
 
   @Put(':id')
@@ -73,4 +75,27 @@ export class ProjectController {
       });
     }
   }
+
+  // Metodo para crear un nmuevo proyecto a partir de un susuario obtenido de 
+
+  @Post('create')
+  @ApiOperation({ summary: 'Crear proyecto' })
+  addProject(@Body() projectDTO: ProjectDTO, @Req() req: any) {
+    console.log("SOY CONTROLADOR PROJECTS -> REQUEST.user = ", req.user);
+    const userEmail = req.user.email;
+    projectDTO.userOwner = userEmail;
+    return this._clientProxyProject.send(ProjectMSG.CREATE, projectDTO);
+  }
+  
+  // Metodo que entrega los proyectos para un determinado usuario
+
+  @Get('/get/findByUser')
+  @ApiOperation({ summary: 'encuentra proyect' })
+  async findAllForUser(@Req() req: any){
+    console.log("USUARIO FIND BY USER ", req.user);
+    return await this._clientProxyProject.send('LIST_PROJECTS', req.user).toPromise();
+
+  }
+
+  
 }

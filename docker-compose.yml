@@ -1,8 +1,9 @@
 version: '3.7'
 
 services:
+
   app:
-    image: app_meetflow:v4
+    image: fabianbello/app_meetflow:v6
     container_name: app_meetflow
     build:
       context: ./api-gateway
@@ -17,7 +18,7 @@ services:
       - ms_meetflow
   
   microservice-projects:
-    image: microservice-projects:v4
+    image: fabianbello/microservice-projects:v6
     container_name: microservice-projects
     build:
       context: ./microservice-projects
@@ -30,7 +31,7 @@ services:
       - ms_meetflow
 
   microservice-guests:
-    image: microservice-guests:v4
+    image: fabianbello/microservice-guests:v6
     container_name: microservice-guests
     build:
       context: ./microservice-guests
@@ -43,7 +44,7 @@ services:
       - ms_meetflow
 
   microservice-users:
-    image: microservice-users:v5
+    image: fabianbello/microservice-users:v6
     container_name: microservice-users
     build:
       context: ./microservice-users
@@ -56,7 +57,7 @@ services:
       - ms_meetflow
 
   microservice-meetings:
-    image: microservice-meetings:v4
+    image: fabianbello/microservice-meetings:v6
     container_name: microservice-meetings
     build:
       context: ./microservice-meetings

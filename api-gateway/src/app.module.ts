@@ -11,7 +11,7 @@ import { MeetingModule } from './meeting/meeting.module';
 @Module({
   imports: [
     ConfigModule.forRoot({
-      envFilePath: ['.env.development'],
+      envFilePath: ['.env.development'], // para que todos vean las variablers de entorno ubicadas en .env.developmentc
       isGlobal: true,
     }),
     UserModule,

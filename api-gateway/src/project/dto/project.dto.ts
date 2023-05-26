@@ -16,4 +16,7 @@ export class ProjectDTO {
   @Type(() => Date)
   @IsDate()
   readonly projectDate: Date;
+
+  @ApiProperty()
+  userOwner: any;
 }

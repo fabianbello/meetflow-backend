@@ -134,4 +134,9 @@ export class UserService {
       email: emaile,
     });
   }
+
+  async dada(user: UserDTO): Promise<IUser>{
+    return user;
+
+  }
 }

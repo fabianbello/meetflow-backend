@@ -5,5 +5,6 @@ export interface IProject extends Document {
     description: string;
     projectDate: Date;
     guests: IGuest[];
+    userOwner: String;
   }
   

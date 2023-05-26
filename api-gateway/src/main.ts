@@ -30,6 +30,7 @@ async function bootstrap() {
     }
   });
 
+  // PERMITE CORS
   app.enableCors();
   await app.listen(process.env.PORT || 3000);
   console.log('API Gateway de meetflow corriendo en el puerto V2: ', process.env.PORT);

@@ -8,14 +8,19 @@ import {
   Param,
   Post,
   Put,
+  UseGuards,
 } from '@nestjs/common';
 import { Observable } from 'rxjs';
 import { MeetingMSG, ProjectMSG } from 'src/common/constants';
 import { IMeeting } from 'src/common/interfaces/meeting.interface';
 import { ClientProxyMeetflow } from 'src/common/proxy/client.proxy';
 import { MeetingDTO } from './dto/meeting.dto';
+import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags('meetings')
 @Controller('api/meeting')
+@UseGuards(JwtAuthGuard)
 export class MeetingController {
   constructor(private readonly clientProxy: ClientProxyMeetflow) {}
 

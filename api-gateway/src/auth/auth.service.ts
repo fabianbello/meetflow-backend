@@ -32,6 +32,7 @@ export class AuthService {
       id: user.id,
     };
     
+    
     const accessToken = await this.jwtService.sign(payload); */
     /* this.esperate2(loginDto).then((resp) => console.log(resp)); */
     
@@ -39,9 +40,36 @@ export class AuthService {
 
     console.log(user); */
 
+    const isExist = await this._clientProxyUser.send(UserMSG.VALID_USER, loginDto);
+
+    console.log('IS EXIST', isExist);
+    return isExist;
+
+
+/*     if(isExist){
+      const passwords = {
+        passLogin: loginDto.password,
+        passDataBase: isExist.password
+
+      }
+      const isPass = await this._clientProxyUser.send(UserMSG.VALID_PASS, isExist);
+
+      const payload = {
+        email: loginDto.email
+      }
+      const token = await this.jwtService.sign(payload); 
+      return token;
+    }
+
     return this._clientProxyUser.send(UserMSG.VALID_USER, loginDto);
     
-    
+     */
+  }
+
+  async setToken(payload: any){
+    const token = await this.jwtService.sign(payload); 
+    console.log("SE PONE TOKEN", token);
+    return await token;
   }
 
   async esperate(loginDto: LoginDto): Promise<any>{

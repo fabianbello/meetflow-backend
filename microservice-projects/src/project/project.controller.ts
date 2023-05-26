@@ -47,4 +47,14 @@ export class ProjectController {
   addGuest(@Payload() payload) {
     return this.projectService.addGuest(payload.projectId, payload.guestId);
   }
+
+  @MessagePattern('LIST_PROJECTS')
+  listProjectByUser(@Payload() payload) {
+    console.log('HOLAAAAAAAAAAAAAAAAAAAAA');
+    console.log("PAYLOAD: ", payload);
+
+    return this.projectService.findAllForUser(payload);
+
+  }
+    /*   return this.projectService.addGuest(payload.projectId, payload.guestId); */
 }

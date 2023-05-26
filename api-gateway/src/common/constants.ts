@@ -12,6 +12,7 @@ export enum UserMSG {
   UPDATE = 'UPDATE_USER',
   DELETE = 'DELETE_USER',
   VALID_USER = 'VALID_USER',
+  VALID_PASS = 'VALID_PASS'
 }
 
 export enum GuestMSG {

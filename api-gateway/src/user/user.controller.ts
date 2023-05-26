@@ -6,6 +6,7 @@ import {
   Param,
   Post,
   Put,
+  Req,
   UseGuards,
 } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
@@ -15,9 +16,10 @@ import { UserMSG } from 'src/common/constants';
 import { IUser } from 'src/common/interfaces/user.interface';
 import { ClientProxyMeetflow } from 'src/common/proxy/client.proxy';
 import { UserDTO } from './dto/user.dto';
+import { Request } from 'express';
 
 @ApiTags('users')
-/* @UseGuards(JwtAuthGuard) */
+@UseGuards(JwtAuthGuard)
 @Controller('api/user')
 export class UserController {
   constructor(private readonly clientProxy: ClientProxyMeetflow) {}
@@ -30,7 +32,7 @@ export class UserController {
     return this._clientProxyUser.send(UserMSG.CREATE, userDTO);
   }
 
-  @Get()
+/*   @Get()
   findAll(): Observable<IUser[]> {
     return this._clientProxyUser.send(UserMSG.FIND_ALL, '');
   }
@@ -38,7 +40,7 @@ export class UserController {
   @Get(':id')
   findOne(@Param('id') id: string): Observable<IUser> {
     return this._clientProxyUser.send(UserMSG.FIND_ONE, id);
-  }
+  } */
 
   @Put(':id')
   update(@Param('id') id: string, @Body() userDTO: UserDTO): Observable<IUser> {
@@ -48,5 +50,12 @@ export class UserController {
   @Delete(':id')
   delete(@Param('id') id: string): Observable<any> {
     return this._clientProxyUser.send(UserMSG.DELETE, id);
+  }
+
+  @Get('userLogin')
+  userLogin(@Req() req: any){
+      console.log("ESTE ES EL USUARIO = ", req.user);
+      return req.user;
+
   }
 }
