@@ -1,0 +1,1 @@
+export const PREMEETING = { name: 'pre-meetings'};
