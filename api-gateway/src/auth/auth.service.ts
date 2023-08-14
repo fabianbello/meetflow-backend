@@ -16,9 +16,9 @@ export class AuthService {
   private _clientProxyUser  = this.clientProxy.clientProxyUser();
 
   async validateUser(username: string, password: string): Promise<any> {
-    console.log('users4:',username);
+   /*  console.log('users4:',username); */
     const user = await this._clientProxyUser.send(UserMSG.VALID_USER, {username, password})
-    console.log('users5:',user);
+  /*   console.log('users5:',user); */
     /* if (user) {
       return user;
     } else {
@@ -42,8 +42,11 @@ export class AuthService {
 
     const isExist = await this._clientProxyUser.send(UserMSG.VALID_USER, loginDto);
 
-    console.log('IS EXIST', isExist);
-    return isExist;
+    return await this._clientProxyUser.send(UserMSG.VALID_USER, loginDto);
+
+   
+    
+
 
 
 /*     if(isExist){
@@ -68,18 +71,18 @@ export class AuthService {
 
   async setToken(payload: any){
     const token = await this.jwtService.sign(payload); 
-    console.log("SE PONE TOKEN", token);
+   /*  console.log("SE PONE TOKEN", token); */
     return await token;
   }
 
   async esperate(loginDto: LoginDto): Promise<any>{
-    console.log('login',loginDto);
+   /*  console.log('login',loginDto); */
     return await this._clientProxyUser.send(UserMSG.VALID_USER, loginDto);
     
   }
 
   esperate2(loginDto: LoginDto){
-    console.log('login',loginDto);
+   /*  console.log('login',loginDto); */
   
     return new Promise((resolve, reject) => {
       resolve(this._clientProxyUser.send(UserMSG.VALID_USER, loginDto));

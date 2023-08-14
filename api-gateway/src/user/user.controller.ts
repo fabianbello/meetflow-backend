@@ -32,30 +32,50 @@ export class UserController {
     return this._clientProxyUser.send(UserMSG.CREATE, userDTO);
   }
 
-/*   @Get()
+ /*    @Get()
   findAll(): Observable<IUser[]> {
     return this._clientProxyUser.send(UserMSG.FIND_ALL, '');
-  }
-
-  @Get(':id')
-  findOne(@Param('id') id: string): Observable<IUser> {
-    return this._clientProxyUser.send(UserMSG.FIND_ONE, id);
   } */
 
-  @Put(':id')
+  @Get('perfil/:id')
+  findOne(@Param('id') id: string): Observable<IUser> {
+    return this._clientProxyUser.send(UserMSG.FIND_ONE, id);
+  }
+
+  @Get('perfil/email/:email')
+  findOneByEmail(@Param('email') email: string): Observable<any> {
+    return this._clientProxyUser.send('USER_BY_EMAIL', email);
+  }
+
+  @Get('/userLogin')
+  userLogin(@Req() req: any) {
+   /*  console.log('ESTE ES EL USUARIO = ', req.user); */
+    return req.user;
+  }
+
+  /* @Put(':id')
   update(@Param('id') id: string, @Body() userDTO: UserDTO): Observable<IUser> {
     return this._clientProxyUser.send(UserMSG.UPDATE, { id, userDTO });
   }
+ */
+  @Put('/update/:id')
+  update2(@Param('id') id: string, @Body() userDTO: any): Observable<IUser> {
+ /*    console.log("UPDATE: userDTO:", userDTO);  */
+   /*  console.log("[API] color recibido: ", userDTO.color) */
+    return this._clientProxyUser.send(UserMSG.UPDATE, { id, userDTO });
+  }
+
+/*   @Put('/update/current/:id')
+  updateCurrent(@Param('id') id: string, @Body() userDTO: UserDTO): Observable<IUser> {
+    console.log("UPDATE: userDTO:", userDTO); 
+    return this._clientProxyUser.send(UserMSG.UPDATE_CURRENT, { id, userDTO });
+  }
+ */
 
   @Delete(':id')
   delete(@Param('id') id: string): Observable<any> {
     return this._clientProxyUser.send(UserMSG.DELETE, id);
   }
 
-  @Get('userLogin')
-  userLogin(@Req() req: any){
-      console.log("ESTE ES EL USUARIO = ", req.user);
-      return req.user;
 
-  }
 }

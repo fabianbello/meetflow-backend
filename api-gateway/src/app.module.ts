@@ -7,6 +7,18 @@ import { GuestModule } from './guest/guest.module';
 import { ProjectModule } from './project/project.module';
 import { UserModule } from './user/user.module';
 import { MeetingModule } from './meeting/meeting.module';
+import { PreMeetingModule } from './pre-meeting/pre-meeting.module';
+import { InMeetingModule } from './in-meeting/in-meeting.module';
+import { PostMeetingModule } from './post-meeting/post-meeting.module';
+import { MeetingMinuteModule } from './meeting-minute/meeting-minute.module';
+import { ElementModule } from './element/element.module';
+import { MailModule } from './mail/mail.module';
+import { EventMailModule } from './event-mail/event-mail.module';
+import { EventEmitterModule } from '@nestjs/event-emitter';
+import { ChatGateway } from './chat/chat.gateway';
+import { TaskModule } from './task/task.module';
+import { ReminderModule } from './reminder/reminder.module';
+import { KanbanModule } from './kanban/kanban.module';
 
 @Module({
   imports: [
@@ -19,8 +31,19 @@ import { MeetingModule } from './meeting/meeting.module';
     ProjectModule,
     AuthModule,
     MeetingModule,
+    PreMeetingModule,
+    InMeetingModule,
+    PostMeetingModule,
+    MeetingMinuteModule,
+    ElementModule,
+    MailModule,
+    EventMailModule,
+    EventEmitterModule.forRoot(),
+    TaskModule,
+    ReminderModule,
+    KanbanModule,
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [AppService, ChatGateway],
 })
 export class AppModule {}

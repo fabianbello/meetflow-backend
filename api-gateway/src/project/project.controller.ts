@@ -32,27 +32,29 @@ export class ProjectController {
   // Invitados
   private _clientProxyGuest = this.clientProxy.clientProxyGuest();
 
-  @Post()
+/*   @Post()
   create(@Body() projectDTO: ProjectDTO): Observable<IProject> {
     return this._clientProxyProject.send(ProjectMSG.CREATE, projectDTO);
-  }
+  } */
 /* 
   @Get()
   findAll(): Observable<IProject[]> {
     return this._clientProxyProject.send(ProjectMSG.FIND_ALL, '');
   } */
 
+
   @Get(':id')
   async findOne(@Param('id') id: string) {
+
     return await this._clientProxyProject.send(ProjectMSG.FIND_ONE, id);
   }
 
   @Put(':id')
-  update(
+  async update(
     @Param('id') id: string,
     @Body() projectDTO: ProjectDTO,
-  ): Observable<IProject> {
-    return this._clientProxyProject.send(ProjectMSG.UPDATE, { id, projectDTO });
+  ): Promise<Observable<IProject>> {
+    return await this._clientProxyProject.send(ProjectMSG.UPDATE, { id, projectDTO });
   }
 
   @Delete(':id')
@@ -80,11 +82,12 @@ export class ProjectController {
 
   @Post('create')
   @ApiOperation({ summary: 'Crear proyecto' })
-  addProject(@Body() projectDTO: ProjectDTO, @Req() req: any) {
+  async addProject(@Body() projectDTO: ProjectDTO, @Req() req: any) {
     console.log("SOY CONTROLADOR PROJECTS -> REQUEST.user = ", req.user);
     const userEmail = req.user.email;
     projectDTO.userOwner = userEmail;
-    return this._clientProxyProject.send(ProjectMSG.CREATE, projectDTO);
+    projectDTO.userMembers = userEmail;
+    return await this._clientProxyProject.send(ProjectMSG.CREATE, projectDTO);
   }
   
   // Metodo que entrega los proyectos para un determinado usuario
@@ -92,9 +95,27 @@ export class ProjectController {
   @Get('/get/findByUser')
   @ApiOperation({ summary: 'encuentra proyect' })
   async findAllForUser(@Req() req: any){
-    console.log("USUARIO FIND BY USER ", req.user);
+/*     console.log("USUARIO FIND BY USER ", req.user); */
     return await this._clientProxyProject.send('LIST_PROJECTS', req.user).toPromise();
 
+  }
+
+  @Post(':projectId/member/:memberEmail')
+  async addMember(
+    @Param('projectId') projectId: string,
+    @Param('memberEmail') memberEmail: string,
+  ) {
+    const params = {
+      projectId: projectId,
+      memberEmail: memberEmail
+    }
+/*     const member = await this.guestService.findOne(memberEmail);
+    if (!member) {
+      throw new HttpException('Usuario no encontrado', HttpStatus.NOT_FOUND);
+    } else {
+      return this.projectService.addGuest(projectId, memberEmail);
+    } */
+    return this._clientProxyProject.send(ProjectMSG.ADD_MEMBER, params);
   }
 
   

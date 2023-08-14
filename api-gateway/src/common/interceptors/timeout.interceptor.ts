@@ -13,7 +13,7 @@ import {
       context: ExecutionContext,
       next: CallHandler<any>,
     ): Observable<any> | Promise<Observable<any>> {
-      return next.handle().pipe(timeout(180000));
+      return next.handle().pipe(timeout(5000));
     }
   }
   

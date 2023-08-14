@@ -12,11 +12,18 @@ export class ProjectDTO {
   @IsString()
   readonly description: string;
   @ApiProperty()
-  @IsNotEmpty()
-  @Type(() => Date)
-  @IsDate()
-  readonly projectDate: Date;
+/*   @IsNotEmpty() */
+/*   @Type(() => Date)
+  @IsDate() */
+  readonly projectDateI: Date;
+
+  shortName: string;
+
+  projectDateT: Date;
 
   @ApiProperty()
   userOwner: any;
+
+  @ApiProperty()
+  userMembers: any;
 }

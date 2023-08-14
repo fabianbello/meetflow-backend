@@ -15,4 +15,7 @@ export class MeetingDTO {
     @IsNumber()
     readonly number: number;
 
+    @IsString()
+    state: string;
+
 }

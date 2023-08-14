@@ -35,7 +35,7 @@ export class GuestController {
     return this._clientProxyGuest.send(GuestMSG.FIND_ALL, '');
   }
 
-  @Get(':id')
+  @Get('/remembers/:id')
   findOne(@Param('id') id: string): Observable<IGuest> {
     return this._clientProxyGuest.send(GuestMSG.FIND_ONE, id);
   }

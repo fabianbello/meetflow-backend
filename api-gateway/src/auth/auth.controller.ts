@@ -1,4 +1,4 @@
-import { Body, Controller, Post, Req, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, Post, Req, UnprocessableEntityException, UseGuards } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { UserMSG } from 'src/common/constants';
 import { ClientProxyMeetflow } from 'src/common/proxy/client.proxy';
@@ -7,6 +7,7 @@ import { UserDTO } from 'src/user/dto/user.dto';
 import { AuthService } from './auth.service';
 import { LocalAuthGuard } from './guards/local-auth.guard';
 import { JwtService } from '@nestjs/jwt';
+import { JwtAuthGuard } from './guards/jwt-auth.guard';
 
 @ApiTags('Authentication')
 @Controller('api/auth')
@@ -29,7 +30,7 @@ export class AuthController {
         await console.log(user);  */
         const isExist = await this._clientProxyUser.send(UserMSG.VALID_USER, loginDto).toPromise();
         
-        await console.log("EXISTE DESDE EL CONTROLADOR", isExist);
+     /*    await console.log("EXISTE DESDE EL CONTROLADOR", isExist); */
         if (isExist){
             const payload = {
                 id: isExist.id,
@@ -39,6 +40,10 @@ export class AuthController {
             return {token};
             
         }
+        else{
+
+            throw new UnprocessableEntityException('No existe el usuario especificado o la contraseña es incorrecta.');
+        }
 
 
     }
@@ -47,9 +52,21 @@ export class AuthController {
     async signUp(@Body() userDTO: UserDTO){
 
         
-        return await this.authService.signUp(userDTO);
+        const isExist = await this._clientProxyUser.send(UserMSG.CREATE, userDTO).toPromise();
+      /*   console.log("EXISTE ESTE WN?", isExist); */
+
+        if (isExist){
+
+            return {isExist};
+            
+        }
+        else{
+            throw new UnprocessableEntityException('ya existe un usuario con ese correo electronico.');
+        }
 
     }
+
+
 
 
 }

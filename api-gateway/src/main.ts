@@ -8,6 +8,7 @@ import { TimeOutInterceptor } from './common/interceptors/timeout.interceptor';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   // manejo de excepciones globales
+
   app.useGlobalFilters(new AllExceptionFilter());
   // manejo de tiempo maximo de respuesta globales
   app.useGlobalInterceptors(new TimeOutInterceptor());
