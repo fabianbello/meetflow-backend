@@ -14,10 +14,20 @@ export const MeetingMinuteSchema = new mongoose.Schema({
     },
   ], */
   topics: [{type: String}],
-  participants: [{type: String}],
-  assistants: [{type: String}],
+
+  /* usuarios */
+
+  // Todos
+  participants: [{type: String}], // todos
+
+  // invitados
+  assistants: [{type: String}], // Asistentes que si fueron a la reunion
+  externals: [{type: String}],  // Los que son miembros del proyecto
+ 
+  // organizadores
   secretaries: [{type: String}],
   leaders: [{type: String}],
+
   links: [{type: String}],
   realStartTime: {type: String},
   realEndTime: {type: String},

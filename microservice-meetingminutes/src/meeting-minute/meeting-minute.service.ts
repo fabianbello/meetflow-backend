@@ -15,7 +15,9 @@ export class MeetingMinuteService {
 
   async create(meetingMinuteDTO: MeetingMinuteDTO, user: any): Promise<IMeetingMinute> {
     
+    meetingMinuteDTO.leaders = user.email;
     meetingMinuteDTO.secretaries = user.email;
+    meetingMinuteDTO.participants = user.email;
     const newMeetingMinute = new this.model(meetingMinuteDTO);
     console.log("MINUTA CREADA: ", newMeetingMinute);
     return await newMeetingMinute.save();

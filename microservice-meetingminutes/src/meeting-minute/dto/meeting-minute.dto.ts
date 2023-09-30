@@ -30,4 +30,6 @@ export class MeetingMinuteDTO {
     number: number;
     links: any;
 
+
+
 }
