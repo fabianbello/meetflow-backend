@@ -12,19 +12,20 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
-import { Observable } from 'rxjs';
 import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
 import { GuestMSG, ProjectMSG } from 'src/common/constants';
 import { IProject } from 'src/common/interfaces/project.interface';
 import { ClientProxyMeetflow } from 'src/common/proxy/client.proxy';
 import { ProjectDTO } from './dto/project.dto';
-import { Request } from 'express';
+import { Observable } from 'rxjs';
 
-@ApiTags('projects')
+@ApiTags('Microservicio de proyectos (microservice-projects)')
 @UseGuards(JwtAuthGuard)
 @Controller('api/project')
 export class ProjectController {
-  constructor(private readonly clientProxy: ClientProxyMeetflow) {}
+
+  // Entrada: cliente proxy global
+  constructor(private readonly clientProxy: ClientProxyMeetflow) { }
 
   // Proyectos
   private _clientProxyProject = this.clientProxy.clientProxyProject();
@@ -32,24 +33,53 @@ export class ProjectController {
   // Invitados
   private _clientProxyGuest = this.clientProxy.clientProxyGuest();
 
-/*   @Post()
-  create(@Body() projectDTO: ProjectDTO): Observable<IProject> {
-    return this._clientProxyProject.send(ProjectMSG.CREATE, projectDTO);
-  } */
-/* 
-  @Get()
-  findAll(): Observable<IProject[]> {
-    return this._clientProxyProject.send(ProjectMSG.FIND_ALL, '');
-  } */
+  /* 
+  Modelo estructural de datos:
 
+    1. IProject:    Interface
 
-  @Get(':id')
+    2. ProjectMSG:  Mensajeria por RabbitMQ
+
+    3. projectDTO:  ProjectDTO: Objeto de transferencia de datos 
+
+  */
+
+  // METODOS CRUD para proyectos
+
+  /*  
+    Metodo para crear un nueva proyecto a partir de un usuario. 
+    (se autoasigna como jefe de proyecto al usuario que crea el proyecto)
+    entrada: datos del proyecto (nombre corto). 
+    salida: objeto de nueva proyecto.  
+  */
+  @Post('create')
+  @ApiOperation({ summary: 'Crear un proyecto' })
+  async addProject(@Body() projectDTO: ProjectDTO, @Req() req: any) {
+    console.log("SOY CONTROLADOR PROJECTS -> REQUEST.user = ", req.user);
+    const userEmail = req.user.email;
+    projectDTO.userOwner = userEmail;
+    projectDTO.userMembers = userEmail;
+    return await this._clientProxyProject.send(ProjectMSG.CREATE, projectDTO);
+  }
+
+  /*  
+   Metodo para  obtener un proyecto a partir del id.
+   entrada: id del proyecto. 
+   salida: objeto del proyecto encontrada.  
+   */
+  @Get('/getProjectbyID/:id')
+  @ApiOperation({ summary: 'Obtener proyecto por id' })
   async findOne(@Param('id') id: string) {
-
     return await this._clientProxyProject.send(ProjectMSG.FIND_ONE, id);
   }
 
+  /*  
+  Metodo para actualizar un proyecto a partir del id.
+  entrada: id del proyecto y nuevos datos del proyecto. 
+  salida: objeto del proyecto actualizada.
+  */
   @Put(':id')
+  @ApiOperation({ summary: 'Actualizar proyecto por id' })
   async update(
     @Param('id') id: string,
     @Body() projectDTO: ProjectDTO,
@@ -57,7 +87,13 @@ export class ProjectController {
     return await this._clientProxyProject.send(ProjectMSG.UPDATE, { id, projectDTO });
   }
 
+  /*  
+  Metodo para borrar permanentemente un proyecto a partir del id.
+  entrada: id del proyecto.
+  salida: valor booleano de confirmación.
+  */
   @Delete(':id')
+  @ApiOperation({ summary: 'Borrar permanentemente un proyecto por id' })
   delete(@Param('id') id: string): Observable<any> {
     return this._clientProxyProject.send(ProjectMSG.DELETE, id);
   }
@@ -78,26 +114,12 @@ export class ProjectController {
     }
   }
 
-  // Metodo para crear un nmuevo proyecto a partir de un susuario obtenido de 
 
-  @Post('create')
-  @ApiOperation({ summary: 'Crear proyecto' })
-  async addProject(@Body() projectDTO: ProjectDTO, @Req() req: any) {
-    console.log("SOY CONTROLADOR PROJECTS -> REQUEST.user = ", req.user);
-    const userEmail = req.user.email;
-    projectDTO.userOwner = userEmail;
-    projectDTO.userMembers = userEmail;
-    return await this._clientProxyProject.send(ProjectMSG.CREATE, projectDTO);
-  }
-  
   // Metodo que entrega los proyectos para un determinado usuario
-
   @Get('/get/findByUser')
   @ApiOperation({ summary: 'encuentra proyect' })
-  async findAllForUser(@Req() req: any){
-/*     console.log("USUARIO FIND BY USER ", req.user); */
+  async findAllForUser(@Req() req: any) {
     return await this._clientProxyProject.send('LIST_PROJECTS', req.user).toPromise();
-
   }
 
   @Post(':projectId/member/:memberEmail')
@@ -109,14 +131,8 @@ export class ProjectController {
       projectId: projectId,
       memberEmail: memberEmail
     }
-/*     const member = await this.guestService.findOne(memberEmail);
-    if (!member) {
-      throw new HttpException('Usuario no encontrado', HttpStatus.NOT_FOUND);
-    } else {
-      return this.projectService.addGuest(projectId, memberEmail);
-    } */
     return this._clientProxyProject.send(ProjectMSG.ADD_MEMBER, params);
   }
 
-  
+
 }

@@ -10,7 +10,8 @@ export enum RabbitMQ {
   ElementQueue = 'elements',
   TaskQueue = 'tasks',
   ReminderQueue = 'reminders',
-  KanbanQueue = 'kanban'
+  KanbanQueue = 'kanban',
+  NotificationQueue = 'notifications',
 }
 
 export enum UserMSG {
@@ -93,7 +94,9 @@ export enum ElementMSG {
   DELETE = 'DELETE_ELEMENT',
   FIND_BY_MEET = 'FIND_BY_MEET_ELEMENT',
   FIND_BY_PROJECT= 'FIND_BY_PROJECT_ELEMENT',
-  FIND_BY_PROJECT_PREVIEW = 'FIND_BY_PROJECT_PREVIEW_ELEMENT'
+  FIND_BY_PROJECT_PREVIEW = 'FIND_BY_PROJECT_PREVIEW_ELEMENT',
+  FIND_BY_USER_PROJECT = 'FIND_BY_USER_PROJECT',
+  FIND_BY_T_PROJECT = 'FIND_BY_T_PROJECT'
 }
 
 export enum TaskMSG {
@@ -118,4 +121,12 @@ export enum KanbanMSG {
   FIND_ONE = 'FIND_KANBAN',
   UPDATE = 'UPDATE_KANBAN',
   DELETE = 'DELETE_KANBAN',
+}
+
+export enum NotificationMSG {
+  CREATE = 'CREATE_NOTIFICATION',
+  FIND_ALL = 'FIND_NOTIFICATION',
+  FIND_ONE = 'FIND_NOTIFICATION',
+  UPDATE = 'UPDATE_NOTIFICATION',
+  DELETE = 'DELETE_NOTIFICATION',
 }

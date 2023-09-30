@@ -9,7 +9,7 @@ import { LocalAuthGuard } from './guards/local-auth.guard';
 import { JwtService } from '@nestjs/jwt';
 import { JwtAuthGuard } from './guards/jwt-auth.guard';
 
-@ApiTags('Authentication')
+@ApiTags('Autentificación (auth)')
 @Controller('api/auth')
 export class AuthController {
     

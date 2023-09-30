@@ -14,6 +14,21 @@ export class MeetingMinuteService {
     private readonly eventEmitter2: EventEmitter2
   ) { }
 
+
+  async sendNotificationExternal(meetingMinuteDTO: any, user: any): Promise<any> {
+
+    let params = {
+      meetingminute: meetingMinuteDTO,
+      users: user
+    }
+
+    console.log("[MEETING MINUTE SERVICE DESDE API] ESTOY ENVIANDO LO SIGUIENTE COMO EVENTO AL INVITADO EXTERNO: ", meetingMinuteDTO, user);
+
+    return await this.eventEmitter2.emit('meetingMinute.inviteExternal', meetingMinuteDTO, user);
+
+  }
+
+
   async sendNotification(meetingMinuteDTO: any, user: any): Promise<any> {
 
     let params = {

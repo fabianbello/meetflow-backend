@@ -19,6 +19,7 @@ import { ChatGateway } from './chat/chat.gateway';
 import { TaskModule } from './task/task.module';
 import { ReminderModule } from './reminder/reminder.module';
 import { KanbanModule } from './kanban/kanban.module';
+import { NotificationModule } from './notification/notification.module';
 
 @Module({
   imports: [
@@ -42,6 +43,7 @@ import { KanbanModule } from './kanban/kanban.module';
     TaskModule,
     ReminderModule,
     KanbanModule,
+    NotificationModule,
   ],
   controllers: [AppController],
   providers: [AppService, ChatGateway],

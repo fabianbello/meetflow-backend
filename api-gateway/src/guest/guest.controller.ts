@@ -16,7 +16,7 @@ import { IGuest } from 'src/common/interfaces/guest.interface';
 import { ClientProxyMeetflow } from 'src/common/proxy/client.proxy';
 import { GuestDTO } from './dto/guest.dto';
 
-@ApiTags('guests')
+/* @ApiTags('guests') */
 /* @UseGuards(JwtAuthGuard) */
 @Controller('api/guest')
 export class GuestController {
@@ -25,31 +25,31 @@ export class GuestController {
   // Invitados
   private _clientProxyGuest = this.clientProxy.clientProxyGuest();
 
-  @Post()
+ /*  @Post()
   create(@Body() guestDTO: GuestDTO): Observable<IGuest> {
     return this._clientProxyGuest.send(GuestMSG.CREATE, guestDTO);
-  }
+  } */
 
-  @Get()
+  /* @Get()
   findAll(): Observable<IGuest[]> {
     return this._clientProxyGuest.send(GuestMSG.FIND_ALL, '');
   }
-
-  @Get('/remembers/:id')
+ */
+  /* @Get('/remembers/:id')
   findOne(@Param('id') id: string): Observable<IGuest> {
     return this._clientProxyGuest.send(GuestMSG.FIND_ONE, id);
-  }
+  } */
 
-  @Put(':id')
+  /* @Put(':id')
   update(
     @Param('id') id: string,
     @Body() guestDTO: GuestDTO,
   ): Observable<IGuest> {
     return this._clientProxyGuest.send(GuestMSG.UPDATE, { id, guestDTO });
-  }
+  } */
 
-  @Delete(':id')
+ /*  @Delete(':id')
   delete(@Param('id') id: string): Observable<any> {
     return this._clientProxyGuest.send(GuestMSG.DELETE, id);
-  }
+  } */
 }

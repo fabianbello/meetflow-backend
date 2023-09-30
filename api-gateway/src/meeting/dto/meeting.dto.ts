@@ -18,4 +18,5 @@ export class MeetingDTO {
     @IsString()
     state: string;
 
+
 }

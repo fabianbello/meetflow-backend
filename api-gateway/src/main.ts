@@ -17,9 +17,9 @@ async function bootstrap() {
 
   // configuracion de Swagger para documentar API
   const options = new DocumentBuilder()
-  .setTitle('Meetflow API')
-  .setDescription('meetflow APP')
-  .setVersion('0.0.1')
+  .setTitle('API Meetflow')
+  .setDescription('Framework para agilizar la creación de aplicaciones que menjan actas dialogicas.')
+  .setVersion('1.0')
   .addBearerAuth() // autentication 
   .build();
 
@@ -33,7 +33,7 @@ async function bootstrap() {
 
   // PERMITE CORS
   app.enableCors();
-  await app.listen(process.env.PORT || 3000);
-  console.log('API Gateway de meetflow corriendo en el puerto V2: ', process.env.PORT);
+  await app.listen(3000);
+  console.log('API Gateway de meetflow corriendo en el puerto V2: ', 3000);
 }
 bootstrap();
