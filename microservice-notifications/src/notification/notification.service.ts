@@ -5,6 +5,7 @@ import { NotificationMSG } from 'src/common/constants';
 import { INotification } from 'src/common/interfaces/notification.interface';
 import { NOTIFICATION } from 'src/common/models/models';
 import { NotificationDTO } from './dto/notification.dto';
+import { EventEmitter2 } from '@nestjs/event-emitter';
 
 @Injectable()
 export class NotificationService {
@@ -12,6 +13,7 @@ export class NotificationService {
     constructor(
         @InjectModel(NOTIFICATION.name)
         private readonly model: Model<INotification>,
+        private readonly eventEmitter2: EventEmitter2
     ) { }
 
     /* 
@@ -54,5 +56,55 @@ export class NotificationService {
             msg: 'Deleted',
         };
     }
+
+
+    async sendNotificationExternal(meetingMinuteDTO: any, user: any): Promise<any> {
+        let params = {
+            meetingminute: meetingMinuteDTO,
+            users: user
+        }
+        console.log("[service notifications] ENVIANDO CORREO", meetingMinuteDTO, user);
+
+        return await this.eventEmitter2.emit('meetingMinute.inviteExternal', meetingMinuteDTO, user);
+    }
+
+    async sendNotification(meetingMinuteDTO: any, user: any): Promise<any> {
+
+        let params = {
+            meetingminute: meetingMinuteDTO,
+            user: user
+        }
+
+        console.log("[MEETING MINUTE SERVICE DESDE API] ESTOY ENVIANDO LO SIGUIENTE COMO EVENTO: ", meetingMinuteDTO, user);
+
+        return await this.eventEmitter2.emit('meetingMinute.created', meetingMinuteDTO, user);
+    }
+
+    async sendNotificationRemember(remember: any, user: any): Promise<any> {
+
+        let params = {
+            remember: remember,
+            users: user
+        }
+
+        console.log("[MEETING MINUTE SERVICE DESDE API] ESTOY ENVIANDO LO SIGUIENTE COMO EVENTO: ", remember, user);
+
+        return await this.eventEmitter2.emit('meetingMinute.rembember', remember, user);
+
+    }
+
+    async sendNotificationRememberTask(remember: any, user: any): Promise<any> {
+
+        let params = {
+          remember: remember,
+          users: user
+        }
+    
+        console.log("[MEETING MINUTE SERVICE DESDE API] ESTOY ENVIANDO LO SIGUIENTE COMO EVENTO: ", remember, user);
+    
+        return await this.eventEmitter2.emit('meetingMinute.rembember', remember, user);
+    
+      }
+
 
 }
