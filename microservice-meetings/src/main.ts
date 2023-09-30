@@ -12,6 +12,6 @@ async function bootstrap() {
     },
   });
   await app.listen();
-  console.log('Microservicio de reuniones corriendo');
+  console.log('Microservicio de meeting corriendo');
 }
 bootstrap();

@@ -17,6 +17,19 @@ export class MeetingService {
         const newMeeting= new this.model(meetingDTO);
         return await newMeeting.save();
       }
+
+      async updateState(id: string, statee: any): Promise<IMeeting> {
+        console.log("ESTADO6", statee),
+        console.log("ID de reunion", id)
+
+        const juan: any = await this.model.findById(id);
+        juan.state = statee.state;
+        return await this.model.findByIdAndUpdate(
+          id,
+        juan,
+          { new: true },
+        );
+      }
     
       async findAll(): Promise<IMeeting[]> {
         return await this.model.find();

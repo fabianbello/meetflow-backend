@@ -14,43 +14,53 @@ import { MeetingMSG } from 'src/common/constants';
 import { MeetingDTO } from './dto/meeting.dto';
 import { MeetingService } from './meeting.service';
 
-@Controller('api/meeting')
+@Controller()
 export class MeetingController {
   constructor(private readonly meetingService: MeetingService) {}
 
   @MessagePattern(MeetingMSG.CREATE)
-  create(@Payload() meetingDTO: MeetingDTO) {
-    return this.meetingService.create(meetingDTO);
+  async create(@Payload() meetingDTO: MeetingDTO) {
+    return await this.meetingService.create(meetingDTO);
   }
 
+  @MessagePattern(MeetingMSG.SET_STATE)
+  async setState(@Payload() payload) {
+    console.log("PAYLOAD.ID", payload.id);
+    console.log("PAYLOAD.STATE", payload.state);
+    return await this.meetingService.updateState(payload.id, payload.state);
+  }
+
+
   @MessagePattern(MeetingMSG.FIND_ALL)
-  findAll() {
-    return this.meetingService.findAll();
+  async findAll() {
+    return await this.meetingService.findAll();
   }
 
   @MessagePattern(MeetingMSG.FIND_ONE)
-  findOne(@Payload() id: string) {
-    return this.meetingService.findOne(id);
+  async findOne(@Payload() id: string) {
+
+    return await this.meetingService.findOne(id);
   }
 
   @MessagePattern(MeetingMSG.UPDATE)
-  update(@Payload() payload) {
-    return this.meetingService.update(payload.id, payload.meetingDTO);
+  async update(@Payload() payload) {
+    return await this.meetingService.update(payload.id, payload.meetingDTO);
   }
 
   @MessagePattern(MeetingMSG.DELETE)
-  delete(@Payload() id: string) {
-    return this.meetingService.delete(id);
+  async delete(@Payload() id: string) {
+    console.log("BORRANDO LA REUNION: ", id);
+    return await this.meetingService.delete(id);
   }
 
   @MessagePattern(MeetingMSG.ADD_PROJECT)
   async setProject(@Payload() payload) {
-    return this.meetingService.setProject(payload.meetingId,payload.projectId);
+    return await this.meetingService.setProject(payload.meetingId,payload.projectId);
   }
 
   @MessagePattern(MeetingMSG.FIND_BY_PROJECT)
-  findByProject(@Payload() id: string) {
-    return this.meetingService.findByProject(id);
+  async findByProject(@Payload() id: string) {
+    return await this.meetingService.findByProject(id);
   }
 
 }

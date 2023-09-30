@@ -11,5 +11,7 @@ export class MeetingDTO {
 
     readonly number: number;
 
+    state: string;
+
 
 }
