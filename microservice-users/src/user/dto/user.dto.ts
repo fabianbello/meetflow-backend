@@ -1,5 +1,13 @@
 export class UserDTO {
-  readonly name: string;
-  readonly email: string;
-  readonly password: string;
+ name: string;
+  email: string;
+  password: string;
+  institution: string;
+  currentProject: string;
+  currentMeeting: string;
+  lastLink: string;
+  currentProjectId: string;
+  currentMeetingId: string;
+  color: string;
+  tagName: string;
 }

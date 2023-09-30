@@ -22,9 +22,19 @@ export class UserController {
 
 
   @MessagePattern(UserMSG.CREATE)
-  create(@Payload() userDTO: UserDTO) {
+  async create(@Payload() userDTO: UserDTO) {
     console.log('users6516:',userDTO);
-    return this.userService.create(userDTO);
+
+    const user = await this.userService.create(userDTO);
+   /*  console.log("USUARIO DESDE EL MICROSERVICIO USER CONTROLER:", user); */
+    if (user){
+     /*  console.log('USUARIO SI SE PUEDE CREAR:',user); */
+      return user;
+    }else{
+    /*   console.log('USUARIO NO SE PUEDE CREAR:',user); */
+      return null;
+    }
+ 
   }
   @MessagePattern(UserMSG.FIND_ALL)
   findAll() {
@@ -36,10 +46,23 @@ export class UserController {
     return this.userService.findOne(id);
   }
 
+  @MessagePattern('USER_BY_EMAIL')
+  findOneByEmail(@Payload() email: string) {
+    return this.userService.findOneByEmail(email);
+  }
+
+
   @MessagePattern(UserMSG.UPDATE)
   update(@Payload() payload: any) {
+/*     console.log("PAYLOAD RECIBIDO AQUI: ", payload.id, payload.userDTO) */
     return this.userService.update(payload.id, payload.userDTO);
   }
+
+/*   @MessagePattern(UserMSG.UPDATE_CURRENT)
+  updateCurrent(@Payload() payload: any) {
+    console.log("PAYLOAD RECIBIDO: ", payload.id, payload.userDTO)
+    return this.userService.update(payload.id, payload.userDTO);
+  } */
 
   @MessagePattern(UserMSG.DELETE)
   delete(@Payload() id: string) {
@@ -48,24 +71,31 @@ export class UserController {
 
   @MessagePattern(UserMSG.VALID_USER)
   async validateUseri(@Payload() payload): Promise<any> {
-    console.log('PAYLOAD:', payload);
+  /*   console.log('PAYLOAD:', payload); */
     const user = await this.userService.findOneByEmail(payload.email);
-    console.log('USUARIO BASE DE DATOS:',user);
-    const isValidPassword = await this.userService.checkPassword(
-      payload.password,
-      user.password,
-    );
 
-    console.log('CONTRASEÑA 1: base de datos',user.password);
-    console.log('CONTRASEÑA 2: ingresado por el usuario',payload.password);
-    console.log('es valido?:',isValidPassword);
-    if (user && isValidPassword) {
-      console.log('LE RETORNAMOS al usuario validado', user);
-      return user;
+ /*    console.log('USUARIO BASE DE DATOS:',user); */
+    if(user){
+      const isValidPassword = await this.userService.checkPassword(
+        payload.password,
+        user.password,
+      );
+      if(isValidPassword){
+   /*      console.log('LE RETORNAMOS al usuario validado', user); */
+        return user;
+      }
+      else{
+     /*    console.log('LAS CONTRASEÑAS NO COINCIDEN') */
+        return null;
+      }
 
-    } else {
-      console.log('NO LE RETORNAMOS USUARIO INVALIDO!')
+
+    }
+    else{
+ /*      console.log('NO ENCONTRAMOS AL USUARIO') */
       return null;
     }
+
+ 
   }
 }

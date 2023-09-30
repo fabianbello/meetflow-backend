@@ -31,17 +31,30 @@ export class UserService {
   }
 
   async create(userDTO: UserDTO): Promise<IUser> {
-    const { name, email, password } = userDTO;
+    const { tagName, name, email, password } = userDTO;
     const activationToken = v4();
     const hash = await this.hashPassword(password);
 
-    const user = this.usersRepository.create({
-      name,
-      email,
-      password: hash,
-      activationToken,
-    });
-    return await this.usersRepository.save(user);
+
+    const userValidate = await this.findByEmail(userDTO.email);
+  /*     console.log("USUARIO valido?", userValidate); */
+    if(!userValidate){
+      const user = this.usersRepository.create({
+        name,
+        tagName,
+        email,
+        password: hash,
+        activationToken,
+        color: 'grey'
+      });
+   /*    console.log("USUARIO CREADO"); */
+      return await this.usersRepository.save(user);
+    }else{
+ /*      console.log("USUARIO NO SE PUDO CREAR"); */
+      return null;
+    }
+
+     
   }
 
   async activateUser(activateUserDto: ActivateUserDto): Promise<void> {
@@ -101,7 +114,7 @@ export class UserService {
   async findOneByEmail(email: string): Promise<User> {
     const user: User = await this.usersRepository.findOneBy({ email });
     if (!user) {
-      throw new NotFoundException(`user with email ${email} no found`);
+      null
     }
     return user;
   }
@@ -121,7 +134,48 @@ export class UserService {
   async update(ide: string, userDTO: UserDTO): Promise<IUser> {
     const hash = await this.hashPassword(userDTO.password);
     const user = { ...userDTO, password: hash };
-    return await this.usersRepository.save(user);
+    const name = userDTO.name;
+    const institution = userDTO.institution;
+    const email = userDTO.email;
+    const currentProject = userDTO.currentProject;
+    const currentMeeting = userDTO.currentMeeting;
+    const lastLink = userDTO.lastLink;
+    const currentProjectId = userDTO.currentProjectId;
+    const currentMeetingId = userDTO.currentMeetingId;
+    const color = userDTO.color;
+    const tagName = userDTO.tagName;
+    
+    if(userDTO.password === 'errorcapa9'){
+      console.log("SEA A GUARDADO ESTO: ", color)
+      return await this.usersRepository.save({id: ide, color});
+
+    }
+    if(userDTO.password === 'errorcapa8'){
+
+      console.log("SEA A GUARDADO ESTO: ", name, institution, email, currentProject, currentMeeting,lastLink, currentProjectId, currentMeetingId )
+      return await this.usersRepository.save({id: ide, name , institution, email,currentProject, currentMeeting , lastLink, currentProjectId, currentMeetingId});
+
+    }
+    else{
+
+        
+      console.log("SEA A GUARDADO ESTO: ", name, tagName, institution, email, userDTO.password )
+      return await this.usersRepository.save({id: ide, name , tagName, institution, email, password: hash });
+
+    }
+    
+    
+  
+  }
+
+  async updateCurrent(ide: string, userDTO: UserDTO): Promise<IUser> {
+ /*    const hash = await this.hashPassword(userDTO.password);
+    const user = { ...userDTO, password: hash }; */
+    const currentProject = userDTO.currentProject;
+    const currentMeeting = userDTO.currentMeeting;
+    const lastLink = userDTO.lastLink;
+    console.log("SEA A GUARDADO ESTO: ", currentProject, currentMeeting, lastLink )
+    return await this.usersRepository.save({id: ide, currentProject , currentMeeting, lastLink });
   }
 
   async delete(id: string) {
@@ -135,8 +189,7 @@ export class UserService {
     });
   }
 
-  async dada(user: UserDTO): Promise<IUser>{
+  async dada(user: UserDTO): Promise<IUser> {
     return user;
-
   }
 }

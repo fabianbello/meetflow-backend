@@ -9,5 +9,6 @@ export enum RabbitMQ {
     UPDATE = 'UPDATE_USER',
     DELETE = 'DELETE_USER',
     VALID_USER = 'VALID_USER',
+    UPDATE_CURRENT = 'UPDATE_CURRENT_USER'
   }
   

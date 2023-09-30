@@ -13,12 +13,17 @@ import { UserModule } from './user/user.module';
       isGlobal: true,
     }),
     TypeOrmModule.forRoot({
+
       type: 'mysql',
-       host: "hostdbusers",
-      port: 3306, 
-/*       host: 'localhost',
-      port: 5000, */
-      
+
+      // PRODUCCION
+     /*        host: "hostdbusers",
+            port: 3306, */
+
+      // LOCAL
+      host: 'localhost',
+      port: 5000,
+
       username: 'root',
       password: 'admin',
       database: 'dbusers',
@@ -30,4 +35,4 @@ import { UserModule } from './user/user.module';
   controllers: [AppController],
   providers: [AppService],
 })
-export class AppModule {}
+export class AppModule { }
