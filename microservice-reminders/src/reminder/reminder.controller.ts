@@ -14,7 +14,7 @@ import { ReminderService } from './reminder.service';
 import { ReminderMSG } from 'src/common/constants';
 import { MessagePattern, Payload } from '@nestjs/microservices';
 
-@Controller('reminder')
+@Controller()
 export class ReminderController {
 
     constructor(private readonly reminderService: ReminderService) {}
