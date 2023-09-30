@@ -19,42 +19,52 @@ export class ProjectController {
   constructor(private readonly projectService: ProjectService) {}
 
   @MessagePattern(ProjectMSG.CREATE)
-  create(@Payload() projectDTO: ProjectDTO) {
-    return this.projectService.create(projectDTO);
+  async create(@Payload() payload: any) {
+    return await this.projectService.createProject(payload);
   }
 
   @MessagePattern(ProjectMSG.FIND_ALL)
-  findAll() {
-    return this.projectService.findAll();
+  async findAll() {
+    return await this.projectService.findAll();
   }
 
   @MessagePattern(ProjectMSG.FIND_ONE)
-  findOne(@Payload() id: string) {
-    return this.projectService.findOne(id);
+  async findOne(@Payload() id: string) {
+    console.log("SE NOS PIDE QUE DEVOLVAMOS UN PROYECTO POR EL ID: ", id);
+    return await this.projectService.findOne(id);
   }
 
   @MessagePattern(ProjectMSG.UPDATE)
-  update(@Payload() payload: any) {
-    return this.projectService.update(payload.id, payload.projectDTO);
+  async update(@Payload() payload: any) {
+    return await this.projectService.update(payload.id, payload.projectDTO);
   }
 
   @MessagePattern(ProjectMSG.DELETE)
-  delete(@Payload() id: string) {
-    return this.projectService.delete(id);
+  async delete(@Payload() id: string) {
+    return await this.projectService.delete(id);
   }
 
   @MessagePattern(ProjectMSG.ADD_GUEST)
-  addGuest(@Payload() payload) {
-    return this.projectService.addGuest(payload.projectId, payload.guestId);
+  async addGuest(@Payload() payload) {
+    return await this.projectService.addGuest(payload.projectId, payload.guestId);
   }
 
   @MessagePattern('LIST_PROJECTS')
-  listProjectByUser(@Payload() payload) {
-    console.log('HOLAAAAAAAAAAAAAAAAAAAAA');
-    console.log("PAYLOAD: ", payload);
+  async listProjectByUser(@Payload() payload) {
+    return await this.projectService.findAllForUser(payload);
+  }
 
-    return this.projectService.findAllForUser(payload);
-
+  @MessagePattern(ProjectMSG.ADD_MEMBER)
+  async addMember(
+    @Payload() payload:any
+  ) {
+/*     const member = await this.guestService.findOne(memberEmail);
+    if (!member) {
+      throw new HttpException('Usuario no encontrado', HttpStatus.NOT_FOUND);
+    } else {
+      return this.projectService.addGuest(projectId, memberEmail);
+    } */
+    return this.projectService.addMember(payload.projectId, payload.memberEmail);
   }
     /*   return this.projectService.addGuest(payload.projectId, payload.guestId); */
 }

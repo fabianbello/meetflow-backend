@@ -11,9 +11,15 @@ export class ProjectService {
     @InjectModel(PROJECT.name) private readonly model: Model<IProject>,
   ) {}
 
-  async create(projectDTO: ProjectDTO): Promise<IProject> {
+  async createProject(projectDTO: any){
+
+/*     const id = projectDTO.user.id;
+    projectDTO.userOwner = projectDTO.user.email;
+    projectDTO.userMembers = projectDTO.user.email; */
+  
     const newProject = new this.model(projectDTO);
     return await newProject.save();
+
   }
 
   async findAll(): Promise<IProject[]> {
@@ -21,7 +27,11 @@ export class ProjectService {
   }
 
   async findOne(id: string): Promise<IProject> {
-    return await this.model.findById(id).populate('guests');
+    console.log("BUSCANDO EN BASE DE DATOS PROYECTO CON EL ID:", id);
+    const projectById = await this.model.findById(id);
+    console.log("ENCONTRAMOS EN LA BASE DE DATOS EL PROYECTO: ", projectById);
+    return await this.model.findById(id);
+    
   }
 
   async update(id: string, projectDTO: ProjectDTO): Promise<IProject> {
@@ -48,11 +58,21 @@ export class ProjectService {
 
   async findAllForUser(user: any){
 
-    const projectsByUser = await this.model.find({"userOwner": user.email}); 
-    const projectsByUser2 = { hola: "hola"};
-    console.log("PROYECTOS POR EL USUARIO ", user.email);
-    console.log("PROYECTOS = ", projectsByUser);
+    let projectsByUser = await this.model.find({"userMembers": user.email}); 
+  
+/*     console.log("PROYECTOS POR EL USUARIO ", user.email);
+    console.log("PROYECTOS = ", projectsByUser); */
     return projectsByUser;
 
   }
+  async addMember(projectId: string, memberEmail: string): Promise<IProject> {
+    return await this.model.findByIdAndUpdate(
+      projectId,
+      {
+        $addToSet: { userMembers: memberEmail },
+      },
+      { new: true },
+    );
+  }
+
 }
