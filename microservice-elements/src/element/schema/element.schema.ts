@@ -15,6 +15,7 @@ export const elementSchema = new mongoose.Schema(
         number: {type: Number, required: false },
         dateLimit: {type: String, required: false },
         position: {type: String, required: false },
+        isSort: {type: String, required: false },
     },
     {
         timestamps: true,
