@@ -3,64 +3,26 @@ version: '3.7'
 services:
 
   app:
-    image: fabianbello/app_meetflow:v6
+    image: fabianbello/app_meetflow:v41
     container_name: app_meetflow
     build:
       context: ./api-gateway
       dockerfile: Dockerfile
     env_file: .env
     ports:
-      - 80:3000
+      - 8081:8081
+      - 82:82
     depends_on:
       - rabbitmq
     restart: always
     networks:
       - ms_meetflow
   
-  microservice-projects:
-    image: fabianbello/microservice-projects:v6
-    container_name: microservice-projects
+  microservice-meetingminutes:
+    image: fabianbello/microservice-meetingminutes:v22
+    container_name: microservice-meetingminutes
     build:
-      context: ./microservice-projects
-      dockerfile: Dockerfile
-    env_file: .env
-    depends_on:
-      - rabbitmq
-    restart: always
-    networks:
-      - ms_meetflow
-
-  microservice-guests:
-    image: fabianbello/microservice-guests:v6
-    container_name: microservice-guests
-    build:
-      context: ./microservice-guests
-      dockerfile: Dockerfile
-    env_file: .env
-    depends_on:
-      - rabbitmq
-    restart: always
-    networks:
-      - ms_meetflow
-
-  microservice-users:
-    image: fabianbello/microservice-users:v6
-    container_name: microservice-users
-    build:
-      context: ./microservice-users
-      dockerfile: Dockerfile
-    env_file: .env
-    depends_on:
-      - rabbitmq
-    restart: always
-    networks:
-      - ms_meetflow
-
-  microservice-meetings:
-    image: fabianbello/microservice-meetings:v6
-    container_name: microservice-meetings
-    build:
-      context: ./microservice-meetings
+      context: ./microservice-meetingminutes
       dockerfile: Dockerfile
     env_file: .env
     depends_on:
@@ -83,7 +45,7 @@ services:
     image: mysql:latest
     container_name: mysql-microservice-users
     volumes:
-      - ./sql-data/db:/var/lib/mysql
+      - ./sql-data/db:/var/lib/mysql22
     ports:
       - 3306:3306
     hostname: 'hostdbusers'

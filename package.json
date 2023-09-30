@@ -1,13 +1,13 @@
 {
   "dependencies": {
-    "@nestjs/config": "^2.2.0",
-    "@nestjs/microservices": "^9.2.1",
-    "@nestjs/mongoose": "^9.2.1",
-    "amqp-connection-manager": "^4.1.9",
+    "@nestjs/config": "^3.0.0",
+    "@nestjs/microservices": "^10.0.5",
+    "@nestjs/mongoose": "^10.0.0",
+    "amqp-connection-manager": "^4.1.13",
     "amqplib": "^0.10.3",
-    "axios": "^1.2.1",
+    "axios": "^1.4.0",
     "moment": "^2.29.4",
-    "mongoose": "^6.8.1",
-    "mongoose-autopopulate": "^0.16.1"
+    "mongoose": "^7.3.2",
+    "mongoose-autopopulate": "^1.0.1"
   }
 }
