@@ -53,8 +53,10 @@ export class ElementController {
     return this.elementService.findByProjectPreview(id);
   }
 
-
-
+  @MessagePattern('FIND_COMPROMISES_BY_MEET')
+  findCompromisesByMeeting(@Payload() id: string) {
+    return this.elementService.findCompromisesByMeeting(id);
+  }
 
   @MessagePattern(ElementMSG.UPDATE)
   update(@Payload() payload: any) {

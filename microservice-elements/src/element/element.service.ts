@@ -37,6 +37,10 @@ export class ElementService {
     return await this.model.where({ meeting: [id] });
   }
 
+  async findCompromisesByMeeting(id: string): Promise<IElement[]> {
+    return await this.model.where({ meeting: [id], type: 'compromiso' });
+  }
+
   async findByProject(id: string): Promise<IElement[]> {
     return await this.model.where({ project: [id] })
   }
