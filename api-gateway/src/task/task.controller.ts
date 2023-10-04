@@ -28,6 +28,9 @@ export class TaskController {
     // cliente proxy de tasks
     private _clientProxyTask = this.clientProxy.clientProxyTask();
 
+    // cliente proxy de elements
+    private _clientProxyElements = this.clientProxy.clientProxyElement();
+
     /* 
    Modelo estructural de datos:
 
@@ -50,6 +53,29 @@ export class TaskController {
     @ApiOperation({ summary: 'Crear una tarea' })
     create(@Body() taskDTO: TaskDTO): Observable<ITask> {
         return this._clientProxyTask.send(TaskMSG.CREATE, taskDTO);
+    }
+
+    /*  
+    Metodo para crear tareas desde los elementos dialogicos como compromisos
+    entrada: elementos dialogicas de compromisos.
+    salida: tareas.
+    */
+    @Post('/createTasksForCompromises/meeting/:meetingId')
+    @ApiOperation({ summary: 'Crear tareas desde compromisos' })
+    async createTasksForElements(@Param('meetingId') meetingId: string): Promise<Observable<ITask[]>> {
+        console.log("[TASKS] LLEGAMOS AQUI");
+        // Comprobar cuales de los elementos de una reunion son compromisos
+        const compromises = await this._clientProxyElements.send('FIND_COMPROMISES_BY_MEET', meetingId).toPromise();
+
+        console.log('[TASK] se encontraron los siguientes compromisos de la reunion ', compromises);
+        // En caso de no existir compromisos, no se crean tareas.
+        if(!compromises){
+            throw new HttpException('No existen compromisos en la reunión', HttpStatus.NOT_FOUND);
+        // En caso de existir compromisos, entonces los asociamos como tareas.
+        }
+        else{
+            return this._clientProxyTask.send('CREATE_TASKS_FOR_COMPROMISES', {compromises: compromises});
+        }
     }
 
     /*  

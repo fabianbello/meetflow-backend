@@ -23,11 +23,6 @@ export class AuthController {
     @Post('signin')
     async signIn(@Body() loginDto: LoginDto){
 
-        /* const { email, password} = loginDto; */
-        /* const user = await this._clientProxyUser.send(UserMSG.VALID_USER, loginDto);
-         */
-        /* const user:any = await this.authService.esperate3(loginDto);
-        await console.log(user);  */
         const isExist = await this._clientProxyUser.send(UserMSG.VALID_USER, loginDto).toPromise();
         
      /*    await console.log("EXISTE DESDE EL CONTROLADOR", isExist); */
