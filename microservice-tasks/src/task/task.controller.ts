@@ -43,4 +43,16 @@ export class TaskController {
   async delete(@Payload() id: string) {
     return await this.taskService.delete(id);
   }
+
+  @MessagePattern('CREATE_TASKS_FOR_COMPROMISES')
+  async tasksForCompromises(@Payload() payload: any) {
+    console.log("LLEGAMOS AQUI", payload.compromises.reduce((acc) => acc + 1, 0));
+
+    let tasks = [];
+    for(let i =0; i< payload.compromises.reduce((acc) => acc + 1, 0); i++){
+      this.taskService.tasksForCompromises(payload.compromises[i]);
+      /* tasks[i] = payload.compromises[i]; */
+    }
+    return true;
+  }
 }

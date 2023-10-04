@@ -71,13 +71,16 @@ export class TaskService {
         };
     }
 
+    async tasksForCompromises(taskDTO: any) {
+        console.log('[SERVICE TASK] Se ha guardado como tarea',taskDTO)
+        const newTask = new this.model(taskDTO);
+        return await newTask.save();
+    }
 
     async addMeetingMinute(
         inMeetingId: String,
         meetingMinuteId: string,
     ): Promise<ITask> {
-
-
         return await this.model.findByIdAndUpdate(
             inMeetingId,
             {
