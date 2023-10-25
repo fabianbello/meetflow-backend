@@ -21,5 +21,6 @@ En terminal:
 1. npm install
 2. npm run start:dev
 
-# 4. En archivo .env:
-Modificar variables según se estime necesario.
+# 4. Modificar archivos .env.development:
+Cambiar variables según se estime necesario.
+
