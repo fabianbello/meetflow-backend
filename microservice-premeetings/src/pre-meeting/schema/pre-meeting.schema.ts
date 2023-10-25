@@ -2,11 +2,8 @@ import * as mongoose from 'mongoose';
 
 export const PreMeetingSchema = new mongoose.Schema(
     {
-     /*    name: {type: String, required: true },
-        description: {type: String, required: true}, */
-        meeting: [{type: mongoose.Schema.Types.ObjectId, ref: 'meetings'}],
-        meetingMinute: {type: String, required: false }
-
+        meeting: [{type: mongoose.Schema.Types.ObjectId, ref: 'meetings'}], // id de la reunión asociada
+        meetingMinute: {type: String, required: false } // id del acta dialogica asociado
     },
     {
         timestamps: true,

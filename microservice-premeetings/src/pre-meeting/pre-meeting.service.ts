@@ -12,11 +12,11 @@ export class PreMeetingService {
     private readonly model: Model<IPreMeeting>,
   ) {}
 
-/*   async create(preMeetingDTO: PreMeetingDTO): Promise<IPreMeeting> {
-    const newMeetingMinute = new this.model(preMeetingDTO);
-    return await newMeetingMinute.save();
-  } */
-
+  /*  
+  Método para crear una nueva pre reunión a partir de una reunión.
+  entrada: datos de la pre reunión y el id de la reunión. 
+  salida: objeto de nueva pre reunión.  
+  */
   async create(meetingId: string){
     const params={
       meeting: meetingId,
@@ -26,20 +26,39 @@ export class PreMeetingService {
     return await newPreMeeting.save();
   }
 
+  /*  
+  Método para obtener todas las pre reuniones.
+  salida: objeto de las pre reuniones encontradas. 
+  */
   async findAll(): Promise<IPreMeeting[]> {
     return await this.model.find();
   }
 
+  /*  
+  Método para  obtener una pre reunión a partir del id.
+  entrada: id de la pre reunión. 
+  salida: objeto de la pre reunión encontrada.  
+  */
   async findOne(id: string): Promise<IPreMeeting> {
     return await this.model.findById(id);
   }
 
+  /*  
+  Metodo para actualizar una pre reunión a partir del id.
+  entrada: id de la pre reunión y nuevos datos de la tarea. 
+  salida: objeto de la pre reunión actualizada.
+  */
   async update(id: string, preMeetingDTO: PreMeetingDTO): Promise<IPreMeeting> {
     return await this.model.findByIdAndUpdate(id, preMeetingDTO, {
       new: true,
     });
   }
 
+  /*  
+  Método para borrar permanentemente una pre reunión a partir del id.
+  entrada: id de la pre reunión.
+  salida: valor booleano de confirmación.
+  */
   async delete(id: string): Promise<any> {
     await this.model.findByIdAndDelete(id);
     return {
@@ -48,18 +67,4 @@ export class PreMeetingService {
     };
   }
 
-  async addMeetingMinute(
-    preMeetingId: String,
-    meetingMinuteId: string,
-  ): Promise<IPreMeeting> {
-
-
-    return await this.model.findByIdAndUpdate(
-      preMeetingId,
-      {
-        $addToSet: { meetingMinutes: meetingMinuteId },
-      },
-      { new: true },
-    );
-  }
 }
