@@ -13,56 +13,45 @@ export class TaskService {
         private readonly model: Model<ITask>,
     ) { }
 
-    /*   async create(preMeetingDTO: PreMeetingDTO): Promise<IPreMeeting> {
-        const newMeetingMinute = new this.model(preMeetingDTO);
-        return await newMeetingMinute.save();
-      } */
-
+    /*  
+     Metodo para crear una nueva tarea.
+     entrada: datos de la tarea. 
+     salida: objeto de nueva tarea.  
+    */
     async create(taskDTO: TaskDTO) {
         const newTask = new this.model(taskDTO);
         console.log("ELEMENTO AÑADIDO!: ", newTask);
         return await newTask.save();
     }
 
+    /*  
+   Metodo para obtener todas las tarea.
+   salida: objeto de tareas encontradas. 
+  */
     async findAll(): Promise<any> {
         console.log("Visualización de tarea");
-        /* return await this.model.find(); */
         let params = {
             state: 'en desarrollo'
         }
         return params;
     }
 
-    async findOne(id: string): Promise<any> {
-        let params = {
-            state: 'en desarrollo'
-        }
-        return params;
-    }
-
-    async findByMeeting(id: string): Promise<ITask[]> {
-        return await this.model.where({ meeting: [id] });
-    }
-
-    async findByProject(id: string): Promise<ITask[]> {
-        return await this.model.where({ project: [id] })
-    }
-
-    async findByUser(id: string): Promise<ITask[]> {
-        return await this.model.where({ participants: [id] })
-    }
-
-    async findByProjectPreview(id: string): Promise<ITask[]> {
-        return await this.model.where({ project: [id], state: 'new' })
-    }
-
-
+    /*  
+     Metodo para actualizar una tarea a partir del id.
+    entrada: id de la tarea y nuevos datos de la tarea. 
+     salida: objeto de la tarea actualizada.
+    */
     async update(id: string, taskDTO: TaskDTO): Promise<ITask> {
         return await this.model.findByIdAndUpdate(id, taskDTO, {
             new: true,
         });
     }
 
+    /*  
+    Metodo para borrar permanentemente una tarea a partir del id.
+    entrada: id de la tarea.
+    salida: valor booleano de confirmación.
+    */
     async delete(id: string): Promise<any> {
         await this.model.findByIdAndDelete(id);
         return {
@@ -71,22 +60,15 @@ export class TaskService {
         };
     }
 
+    /*  
+    Metodo para crear tareas desde los elementos dialogicos como compromisos
+    entrada: elementos dialogicas de compromisos.
+    salida: tareas.
+    */
     async tasksForCompromises(taskDTO: any) {
-        console.log('[SERVICE TASK] Se ha guardado como tarea',taskDTO)
+        console.log('[SERVICE TASK] Se ha guardado como tarea', taskDTO)
         const newTask = new this.model(taskDTO);
         return await newTask.save();
     }
 
-    async addMeetingMinute(
-        inMeetingId: String,
-        meetingMinuteId: string,
-    ): Promise<ITask> {
-        return await this.model.findByIdAndUpdate(
-            inMeetingId,
-            {
-                $addToSet: { meetingMinutes: meetingMinuteId },
-            },
-            { new: true },
-        );
-    }
 }
