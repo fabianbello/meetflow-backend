@@ -22,6 +22,9 @@ import { GuestDTO } from './dto/guest.dto';
 export class GuestController {
   constructor(private readonly clientProxy: ClientProxyMeetflow) {}
 
+  // IMPORTANTE!!!! IMPLEMENTACIÖN HACIA MICROSERVICIO DE INVITADOS (GUEST) OBSOLETO
+  // IMPORTANTE!!!! NO UTILIZAR MICROSERVICIO GUEST, PREFIERA USAR MICROSERIVICIO USERS
+
   // Invitados
   private _clientProxyGuest = this.clientProxy.clientProxyGuest();
 

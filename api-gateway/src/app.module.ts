@@ -15,7 +15,7 @@ import { ElementModule } from './element/element.module';
 import { MailModule } from './mail/mail.module';
 import { EventMailModule } from './event-mail/event-mail.module';
 import { EventEmitterModule } from '@nestjs/event-emitter';
-import { ChatGateway } from './chat/chat.gateway';
+import { ScoketGateway } from './web-socket/socket.gateway';
 import { TaskModule } from './task/task.module';
 import { ReminderModule } from './reminder/reminder.module';
 import { KanbanModule } from './kanban/kanban.module';
@@ -46,6 +46,6 @@ import { NotificationModule } from './notification/notification.module';
     NotificationModule,
   ],
   controllers: [AppController],
-  providers: [AppService, ChatGateway],
+  providers: [AppService, ScoketGateway],
 })
 export class AppModule {}

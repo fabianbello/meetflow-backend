@@ -31,7 +31,7 @@ export class PostMeetingController {
   // METODOS CRUD para notificaciones
 
   /*  
-  Metodo para crear una nueva post reunión.
+  Método para crear una nueva post reunión.
   entrada: datos de la post reunión. 
   salida: objeto de nueva post reunión.  
   */
@@ -43,7 +43,7 @@ export class PostMeetingController {
   }
 
   /*  
-  Metodo para obtener todas las post reuniones.
+  Método para obtener todas las post reuniones.
   salida: objeto de post reuniones encontradas. 
   */
   @Get()
@@ -53,9 +53,9 @@ export class PostMeetingController {
   }
 
   /*  
-    Metodo para  obtener una post reunión a partir del id.
-    entrada: id de la post reunión. 
-    salida: objeto de la post reunión encontrada.  
+  Método para  obtener una post reunión a partir del id.
+  entrada: id de la post reunión. 
+  salida: objeto de la post reunión encontrada.  
     */
   @Get(':id')
   @ApiOperation({ summary: 'Obtener post reunión por id' })
@@ -64,9 +64,9 @@ export class PostMeetingController {
   }
 
   /*  
-      Metodo para actualizar una post reunión a partir del id.
-      entrada: id de la post reunión y nuevos datos de la post reunión. 
-      salida: objeto de la post reunión actualizada.
+  Método para actualizar una post reunión a partir del id.
+  entrada: id de la post reunión y nuevos datos de la post reunión. 
+  salida: objeto de la post reunión actualizada.
   */
   @Put(':id')
   @ApiOperation({ summary: 'Actualizar post reunión por id' })
@@ -81,10 +81,10 @@ export class PostMeetingController {
   }
 
   /*  
-    Metodo para borrar permanentemente una post reunión a partir del id.
-    entrada: id de la post reunión.
-    salida: valor booleano de confirmación.
-    */
+  Método para borrar permanentemente una post reunión a partir del id.
+  entrada: id de la post reunión.
+  salida: valor booleano de confirmación.
+  */
   @Delete(':id')
   @ApiOperation({ summary: 'Borrar permanentemente una post reunión por id' })
   delete(@Param('id') id: string): Observable<any> {

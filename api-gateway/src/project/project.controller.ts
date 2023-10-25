@@ -47,15 +47,14 @@ export class ProjectController {
   // METODOS CRUD para proyectos
 
   /*  
-    Metodo para crear un nueva proyecto a partir de un usuario. 
-    (se autoasigna como jefe de proyecto al usuario que crea el proyecto)
-    entrada: datos del proyecto (nombre corto). 
-    salida: objeto de nueva proyecto.  
+  Método para crear un nueva proyecto a partir de un usuario. 
+  (se autoasigna como jefe de proyecto al usuario que crea el proyecto)
+  entrada: datos del proyecto (nombre corto). 
+  salida: objeto de nueva proyecto.  
   */
   @Post('create')
   @ApiOperation({ summary: 'Crear un proyecto' })
   async addProject(@Body() projectDTO: ProjectDTO, @Req() req: any) {
-    console.log("SOY CONTROLADOR PROJECTS -> REQUEST.user = ", req.user);
     const userEmail = req.user.email;
     projectDTO.userOwner = userEmail;
     projectDTO.userMembers = userEmail;
@@ -63,10 +62,10 @@ export class ProjectController {
   }
 
   /*  
-   Metodo para  obtener un proyecto a partir del id.
-   entrada: id del proyecto. 
-   salida: objeto del proyecto encontrada.  
-   */
+  Método para  obtener un proyecto a partir del id.
+  entrada: id del proyecto. 
+  salida: objeto del proyecto encontrada.  
+  */
   @Get('/getProjectbyID/:id')
   @ApiOperation({ summary: 'Obtener proyecto por id' })
   async findOne(@Param('id') id: string) {
@@ -74,7 +73,7 @@ export class ProjectController {
   }
 
   /*  
-  Metodo para actualizar un proyecto a partir del id.
+  Método para actualizar un proyecto a partir del id.
   entrada: id del proyecto y nuevos datos del proyecto. 
   salida: objeto del proyecto actualizada.
   */
@@ -88,7 +87,7 @@ export class ProjectController {
   }
 
   /*  
-  Metodo para borrar permanentemente un proyecto a partir del id.
+  Método para borrar permanentemente un proyecto a partir del id.
   entrada: id del proyecto.
   salida: valor booleano de confirmación.
   */
@@ -98,6 +97,11 @@ export class ProjectController {
     return this._clientProxyProject.send(ProjectMSG.DELETE, id);
   }
 
+  /*  
+  Método para añadir un invitado al proyecto.
+  entrada: id del proyecto e id del invitado
+  salida: objeto del proyecto con nuevo invitado añadido.  
+  */
   @Post(':projectId/guest/:guestId')
   async addGuest(
     @Param('projectId') projectId: string,
@@ -114,15 +118,23 @@ export class ProjectController {
     }
   }
 
-
-  // Metodo que entrega los proyectos para un determinado usuario
+  /*  
+  Método para obtener todos los proyectos de un usuario por su id
+  entrada: id del usuario que solicita
+  salida: objeto del proyecto encontrado.  
+  */
   @Get('/get/findByUser')
   @ApiOperation({ summary: 'encuentra proyect' })
   async findAllForUser(@Req() req: any) {
     return await this._clientProxyProject.send('LIST_PROJECTS', req.user).toPromise();
   }
 
-  @Post(':projectId/member/:memberEmail')
+  /*  
+  Método para añadir un miembro al proyecto
+  entrada: email del usuario a añadir
+  salida: objeto del proyecto encontrado.  
+  */
+  @Post(':projectId/add/member/:memberEmail')
   async addMember(
     @Param('projectId') projectId: string,
     @Param('memberEmail') memberEmail: string,
@@ -133,6 +145,5 @@ export class ProjectController {
     }
     return this._clientProxyProject.send(ProjectMSG.ADD_MEMBER, params);
   }
-
 
 }

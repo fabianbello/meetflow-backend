@@ -33,7 +33,7 @@ async function bootstrap() {
 
   // PERMITE CORS
   app.enableCors();
-  await app.listen(3000);
+  await app.listen(parseInt(process.env.API_PORT));
   console.log('API Gateway de meetflow corriendo en el puerto V2: ', 3000);
 }
 bootstrap();

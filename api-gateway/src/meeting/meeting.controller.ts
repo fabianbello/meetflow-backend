@@ -8,6 +8,7 @@ import {
   Param,
   Post,
   Put,
+  Req,
   UseGuards,
 } from '@nestjs/common';
 
@@ -18,7 +19,6 @@ import { MeetingDTO } from './dto/meeting.dto';
 import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
 import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { Observable } from 'rxjs';
-
 
 @ApiTags('Microservicio de reuniones (microservice-meetings)')
 @ApiBearerAuth()
@@ -33,7 +33,6 @@ export class MeetingController {
   // cliente proxy de proyectos
   private _ClientProxyProject = this.clientProxy.clientProxyProject();
 
-
   /* 
     Modelo estructural de datos:
 
@@ -43,12 +42,12 @@ export class MeetingController {
 
         3. meetingDTO:  MeetingDTO: Objeto de transferencia de datos 
 
-    */
+  */
 
   // METODOS CRUD para reuniones
 
   /*  
-  Metodo para crear una nueva reunión.
+  Método para crear una nueva reunión.
   entrada: datos de la reunión. 
   salida: objeto de nueva reunión.  
   */
@@ -59,14 +58,13 @@ export class MeetingController {
   }
 
   /*  
-    Metodo para asignar estado a la reunión
-    entrada: datos del nuevo estado de la reunion y la id de la reunion a actualizar
-    salida: objeto de reuniones actualizadas. 
-    */
+  Método para asignar estado a la reunión
+  entrada: datos del nuevo estado de la reunion y la id de la reunion a actualizar
+  salida: objeto de reuniones actualizadas. 
+  */
   @Post('/edit/:id/state')
   @ApiOperation({ summary: 'Asignar estado a la reunión' })
   updateState(@Param('id') id: string, @Body() state: any) {
-    console.log("ESTADO 2", state);
     const params = {
       id: id,
       state: state
@@ -75,9 +73,9 @@ export class MeetingController {
   }
 
   /*  
-    Metodo para obtener todas las reuniones.
-    salida: objeto de reuniones encontradas. 
-    */
+  Método para obtener todas las reuniones.
+  salida: objeto de reuniones encontradas. 
+  */
   @Get()
   @ApiOperation({ summary: 'Obtener todas las reuniones' })
   async findAll(): Promise<Observable<IMeeting[]>> {
@@ -85,10 +83,10 @@ export class MeetingController {
   }
 
   /*  
-   Metodo para  obtener una reunión a partir del id.
-   entrada: id de la reunión. 
-   salida: objeto de la reunión encontrada.  
-   */
+  Método para  obtener una reunión a partir del id.
+  entrada: id de la reunión. 
+  salida: objeto de la reunión encontrada.  
+  */
   @Get(':id')
   @ApiOperation({ summary: 'Obtener reunión por id' })
   async findOne(@Param('id') id: string): Promise<Observable<IMeeting>> {
@@ -96,7 +94,7 @@ export class MeetingController {
   }
 
   /*  
-  Metodo para  obtener runiones a partir del id de un proyecto.
+  Método para  obtener runiones a partir del id de un proyecto.
   entrada: el id del proyecto. 
   salida: objeto de las reuniones encontrada para el proyecto.  
   */
@@ -107,10 +105,10 @@ export class MeetingController {
   }
 
   /*  
-     Metodo para actualizar una reunión a partir del id.
-     entrada: id de la reunión y nuevos datos de la reunión. 
-     salida: objeto de la reunión actualizada.
-     */
+  Método para actualizar una reunión a partir del id.
+  entrada: id de la reunión y nuevos datos de la reunión. 
+  salida: objeto de la reunión actualizada.
+  */
   @Put(':id')
   @ApiOperation({ summary: 'Actualizar reunión por id' })
   async update(
@@ -121,10 +119,10 @@ export class MeetingController {
   }
 
   /*  
-    Metodo para borrar permanentemente una reunión a partir del id.
-    entrada: id de la reunión.
-    salida: valor booleano de confirmación.
-    */
+  Método para borrar permanentemente una reunión a partir del id.
+  entrada: id de la reunión.
+  salida: valor booleano de confirmación.
+  */
   @Delete(':id')
   @ApiOperation({ summary: 'Borrar permanentemente una reunión por id' })
   delete(@Param('id') id: string): Observable<any> {
@@ -132,10 +130,10 @@ export class MeetingController {
   }
 
   /*  
-   Metodo para vincular una reunión a un proyecto
-   entrada: id del proyecto, id de la reunión
-   salida: objeto de la reunión con el proyecto vinculado.
-   */
+  Método para vincular una reunión a un proyecto
+  entrada: id del proyecto, id de la reunión
+  salida: objeto de la reunión con el proyecto vinculado.
+  */
   @Post(':meetingId/project/:projectId')
   @ApiOperation({ summary: 'Vincular reunión por id a un proyecto por id de proyecto' })
   async addProject(
@@ -147,12 +145,33 @@ export class MeetingController {
       .toPromise();
     if (!project)
       throw new HttpException('Proyecto no encontrado', HttpStatus.NOT_FOUND);
-
     return await this._clientProxyMeeting.send(MeetingMSG.ADD_PROJECT, {
       meetingId,
       projectId,
     });
   }
 
+  /*  
+  Método para  obtener runiones a partir del id de un proyecto.
+  entrada: el id del proyecto. 
+  salida: objeto de las reuniones encontrada para el proyecto.  
+  */
+  @Get('/project/:idProject/number/:numberMeet')
+  @ApiOperation({ summary: 'Obtener reunion por id de proyecto y numero de la reunion' })
+  async findByProjectNumber(
+    @Param('idProject') idProject: string, 
+    @Param('numberMeet') numberMeet: string): Promise<Observable<IMeeting[]>> {
+    return await this._clientProxyMeeting.send("FIND_BY_PROJECT_NUMBER", {idProject, numberMeet});
+  }
 
+  /*  
+  Metodo para calcular la cantidad de reuniones totales en la plataforma.
+  salida: cantidad de reuniones totales
+  */
+  @Get('/counts')
+  @ApiOperation({ summary: 'obtener la cantidad total de usuarios' })
+  countUsers(@Req() req: any) {
+    console.log("CANTIDAD DE reuniones");
+    return this._clientProxyMeeting.send('countmeetings', '');
+  }
 }

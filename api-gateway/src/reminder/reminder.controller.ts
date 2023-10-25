@@ -29,7 +29,6 @@ export class ReminderController {
      // cliente proxy de recordatorios
     private _clientProxyReminder = this.clientProxy.clientProxyReminder();
 
-
     /* 
      Modelo estructural de datos:
 
@@ -44,7 +43,7 @@ export class ReminderController {
     // METODOS CRUD para recordatorios
 
     /*  
-    Metodo para crear una nueva recordatorio.
+    Método para crear una nueva recordatorio.
     entrada: datos del recordatorio. 
     salida: objeto de nueva recordatorio.  
     */
@@ -55,19 +54,18 @@ export class ReminderController {
     }
 
    /*  
-    Metodo para  obtener una recordatorio a partir del id.
+    Método para  obtener una recordatorio a partir del id.
     entrada: id del recordatorio. 
     salida: objeto del recordatorio encontrada.  
     */
     @Get('/:id')
     @ApiOperation({ summary: 'Obtener recordatorio por id' })
     async findOne(@Param('id') id: string) {
-        console.log('solicitamos los recordatorios para un usuario');
         return await this._clientProxyReminder.send(ReminderMSG.FIND_ONE, id);
     }
 
     /*  
-    Metodo para actualizar un recordatorio a partir del id.
+    Método para actualizar un recordatorio a partir del id.
     entrada: id del recordatorio y nuevos datos del recordatorio. 
     salida: objeto de la recordatorio actualizada.
     */

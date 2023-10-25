@@ -31,9 +31,9 @@ export class PreMeetingController {
   // METODOS CRUD para pre reuniones
 
   /*  
-   Metodo para crear una nueva pre reunión a partir de una reunión.
-   entrada: datos de la pre reunión y el id de la reunión. 
-   salida: objeto de nueva pre reunión.  
+  Método para crear una nueva pre reunión a partir de una reunión.
+  entrada: datos de la pre reunión y el id de la reunión. 
+  salida: objeto de nueva pre reunión.  
   */
   @Post('/:meetingId')
   @ApiOperation({ summary: 'Crear una pre reunión a partir del id de la reunión' })
@@ -42,9 +42,9 @@ export class PreMeetingController {
   }
 
   /*  
-     Metodo para obtener todas las pre reuniones.
-     salida: objeto de las pre reuniones encontradas. 
-    */
+  Método para obtener todas las pre reuniones.
+  salida: objeto de las pre reuniones encontradas. 
+  */
   @Get()
   @ApiOperation({ summary: 'Obtener todas las pre reuniones' })
   findAll(): Observable<IMeeting[]> {
@@ -52,10 +52,10 @@ export class PreMeetingController {
   }
 
   /*  
-     Metodo para  obtener una pre reunión a partir del id.
-     entrada: id de la pre reunión. 
-     salida: objeto de la pre reunión encontrada.  
-    */
+  Método para  obtener una pre reunión a partir del id.
+  entrada: id de la pre reunión. 
+  salida: objeto de la pre reunión encontrada.  
+  */
   @Get(':id')
   @ApiOperation({ summary: 'Obtener pre reunión por id' })
   findOne(@Param('id') id: string): Observable<IPreMeeting> {
@@ -63,10 +63,10 @@ export class PreMeetingController {
   }
 
   /*  
-    Metodo para actualizar una pre reunión a partir del id.
-    entrada: id de la pre reunión y nuevos datos de la tarea. 
-    salida: objeto de la pre reunión actualizada.
-   */
+  Metodo para actualizar una pre reunión a partir del id.
+  entrada: id de la pre reunión y nuevos datos de la tarea. 
+  salida: objeto de la pre reunión actualizada.
+  */
   @Put(':id')
   @ApiOperation({ summary: 'Actualizar pre reunión por id' })
   update(
@@ -77,10 +77,10 @@ export class PreMeetingController {
   }
 
   /*  
-   Metodo para borrar permanentemente una pre reunión a partir del id.
-   entrada: id de la pre reunión.
-   salida: valor booleano de confirmación.
-    */
+  Método para borrar permanentemente una pre reunión a partir del id.
+  entrada: id de la pre reunión.
+  salida: valor booleano de confirmación.
+  */
   @Delete(':id')
   @ApiOperation({ summary: 'Borrar permanentemente una pre reunión por id' })
   delete(@Param('id') id: string): Observable<any> {

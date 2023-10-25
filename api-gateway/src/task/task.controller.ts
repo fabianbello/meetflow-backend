@@ -22,6 +22,9 @@ import { ApiOperation, ApiTags } from '@nestjs/swagger';
 @Controller('api/task')
 export class TaskController {
 
+    // IMPORTANTE!!!! EN MEETFLOW FRONTEND SE UTILIZAN LOS METODOS DE ELEMENTOS PARA TRABAJAR TAREAS
+    // IMPORTANTE!!!! EN MEETFLOW FRONTEND SE UTILIZAN LOS METODOS DE ELEMENTOS PARA TRABAJAR TAREAS
+
     // Entrada: cliente proxy global
     constructor(private readonly clientProxy: ClientProxyMeetflow) { }
 
@@ -32,7 +35,7 @@ export class TaskController {
     private _clientProxyElements = this.clientProxy.clientProxyElement();
 
     /* 
-   Modelo estructural de datos:
+    Modelo estructural de datos:
 
        1. Itask:    Interface
 
@@ -40,7 +43,7 @@ export class TaskController {
 
        3. taskDTO:  TaskDTO: Objeto de transferencia de datos 
 
-   */
+    */
 
     // METODOS CRUD para tareas
 
@@ -63,11 +66,9 @@ export class TaskController {
     @Post('/createTasksForCompromises/meeting/:meetingId')
     @ApiOperation({ summary: 'Crear tareas desde compromisos' })
     async createTasksForElements(@Param('meetingId') meetingId: string): Promise<Observable<ITask[]>> {
-        console.log("[TASKS] LLEGAMOS AQUI");
         // Comprobar cuales de los elementos de una reunion son compromisos
         const compromises = await this._clientProxyElements.send('FIND_COMPROMISES_BY_MEET', meetingId).toPromise();
 
-        console.log('[TASK] se encontraron los siguientes compromisos de la reunion ', compromises);
         // En caso de no existir compromisos, no se crean tareas.
         if(!compromises){
             throw new HttpException('No existen compromisos en la reunión', HttpStatus.NOT_FOUND);
@@ -85,7 +86,6 @@ export class TaskController {
     @Get('/ver/tarea')
     @ApiOperation({ summary: 'Obtener todas las tareas' })
     async findAll() {
-        console.log("Solicitando a microservicio tareas: visualización");
         return await this._clientProxyTask.send(TaskMSG.FIND_ALL, '');
     }
 
@@ -97,7 +97,6 @@ export class TaskController {
     @Get(':id')
     @ApiOperation({ summary: 'Obtener tarea por id' })
     async findOne(@Param('id') id: string) {
-
         return await this._clientProxyTask.send(TaskMSG.FIND_ONE, id);
     }
 

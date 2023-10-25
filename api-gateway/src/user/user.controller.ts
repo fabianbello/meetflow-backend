@@ -44,15 +44,16 @@ export class UserController {
   // METODOS CRUD para usuarios
 
   /*  
-   Metodo para crear un nuevo usuario.
-   entrada: datos del usuario. 
-   salida: objeto del nuevo usuario.  
+  Metodo para crear un nuevo usuario.
+  entrada: datos del usuario. 
+  salida: objeto del nuevo usuario.  
   */
   @Post()
   @ApiOperation({ summary: 'Crear un usuario' })
   create(@Body() userDTO: UserDTO): Observable<IUser> {
     return this._clientProxyUser.send(UserMSG.CREATE, userDTO);
   }
+
   /*  
   Metodo para  obtener un usuario a partir del id.
   entrada: id del usuario. 
@@ -62,6 +63,29 @@ export class UserController {
   @ApiOperation({ summary: 'Obtener usuario por id' })
   findOne(@Param('id') id: string): Observable<IUser> {
     return this._clientProxyUser.send(UserMSG.FIND_ONE, id);
+  }
+
+  
+  /*  
+  Metodo para  obtener un usuario a partir del id.
+  entrada: id del usuario. 
+  salida: objeto del usuario encontrado.  
+  */
+  @Get('resetpass/:email')
+  @ApiOperation({ summary: 'obtener nueva contraseña' })
+  resetPass(@Param('email') email: string): Observable<IUser> {
+    return this._clientProxyUser.send(UserMSG.FIND_ONE, email);
+  }
+
+  /*  
+  Metodo para  obtener un usuario a partir del id.
+  entrada: id del usuario. 
+  salida: objeto del usuario encontrado.  
+  */
+  @Get('get/allUser')
+  @ApiOperation({ summary: 'Obtener todos los usariosusuario' })
+  findAll(): Observable<IUser> {
+    return this._clientProxyUser.send(UserMSG.FIND_ALL, '');
   }
 
   /*  
@@ -83,57 +107,72 @@ export class UserController {
   @Get('/userLogin')
   @ApiOperation({ summary: 'obtener usuario por token JWT' })
   userLogin(@Req() req: any) {
-    /*  console.log('ESTE ES EL USUARIO = ', req.user); */
     return req.user;
   }
 
-  /* @Put(':id')
-  update(@Param('id') id: string, @Body() userDTO: UserDTO): Observable<IUser> {
-    return this._clientProxyUser.send(UserMSG.UPDATE, { id, userDTO });
-  }
- */
   /*  
-     Metodo para actualizar un usuario a partir del id.
-     entrada: id del usuario y nuevos datos del usuario. 
-     salida: objeto del usuario actualizada.
-    */
-  @Put('/update/:id')
+  Metodo para actualizar el color de un usuario
+  entrada: id del usuario y nuevos datos del usuario. 
+  salida: objeto del usuario actualizada.
+  */
+  @Put('/update/:id/color')
+  @ApiOperation({ summary: 'Actualizar color del usuario por id' })
+  updateColor(@Param('id') id: string, @Body() userDTO: any): Observable<IUser> {
+    return this._clientProxyUser.send('UPDATE_COLOR', { id, userDTO });
+  }
+
+  /*  
+  Metodo para actualizar última sección usuario
+  entrada: id del usuario y nuevos datos del usuario. 
+  salida: objeto del usuario actualizada.
+  */
+  @Put('/update/:id/section')
+  @ApiOperation({ summary: 'Actualizar sección del usuario por id' })
+  updateSection(@Param('id') id: string, @Body() userDTO: any): Observable<IUser> {
+    return this._clientProxyUser.send('UPDATE_SECTION', { id, userDTO });
+  }
+
+  /*  
+  Metodo para actualizar usuario
+  entrada: id del usuario y nuevos datos del usuario. 
+  salida: objeto del usuario actualizada.
+  */
+  @Put('/update/:id/profile')
   @ApiOperation({ summary: 'Actualizar usuario por id' })
-  update2(@Param('id') id: string, @Body() userDTO: any): Observable<IUser> {
-    /*    console.log("UPDATE: userDTO:", userDTO);  */
-    /*  console.log("[API] color recibido: ", userDTO.color) */
+  update(@Param('id') id: string, @Body() userDTO: any): Observable<IUser> {
     return this._clientProxyUser.send(UserMSG.UPDATE, { id, userDTO });
   }
 
-  /*   @Put('/update/current/:id')
-    updateCurrent(@Param('id') id: string, @Body() userDTO: UserDTO): Observable<IUser> {
-      console.log("UPDATE: userDTO:", userDTO); 
-      return this._clientProxyUser.send(UserMSG.UPDATE_CURRENT, { id, userDTO });
-    }
-   */
 
   /*  
-      Metodo para borrar permanentemente un usuario a partir del id.
-      entrada: id del usuario.
-      salida: valor booleano de confirmación.
-   */
+  Metodo para borrar permanentemente un usuario a partir del id.
+  entrada: id del usuario.
+  salida: valor booleano de confirmación.
+  */
   @Delete(':id')
   @ApiOperation({ summary: 'Borrar permanentemente un usuario por id' })
   delete(@Param('id') id: string): Observable<any> {
     return this._clientProxyUser.send(UserMSG.DELETE, id);
   }
 
-    /*  
-      Metodo para borrar permanentemente un usuario a partir del id.
-      entrada: id del usuario.
-      salida: valor booleano de confirmación.
-   */
-      @Delete(':id')
-      @ApiOperation({ summary: 'Borrar permanentemente un usuario por id' })
-      getAll(@Param('id') id: string): Observable<any> {
-        return this._clientProxyUser.send('allusers', id);
-      }
-    
+  /*  
+  Metodo para borrar permanentemente un usuario a partir del id.
+  entrada: id del usuario.
+  salida: valor booleano de confirmación.
+  */
+  @Delete(':id')
+  @ApiOperation({ summary: 'Borrar permanentemente un usuario por id' })
+  getAll(@Param('id') id: string): Observable<any> {
+    return this._clientProxyUser.send('allusers', id);
+  }
 
-
+  /*  
+  Metodo para contar la cantidad de usuarios totales
+  salida: numero de usuarios
+  */
+  @Get('/counts')
+  @ApiOperation({ summary: 'obtener la cantidad total de usuarios' })
+  countUsers(@Req() req: any) {
+    return this._clientProxyUser.send('countusers', '');
+  }
 }

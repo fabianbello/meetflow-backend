@@ -6,14 +6,20 @@ import { HandlebarsAdapter } from '@nestjs-modules/mailer/dist/adapters/handleba
   imports: [
     MailerModule.forRootAsync({
       useFactory: () => {
+        // NOTIFICACIONES -> SE TRASLADA LOGICA A MICROSERVICIO DE NOTIFICATIONS
+
+        // IMPORTANTE!!!!!! ESTO NO ES USADO ACTUALMENTE AQUÍ
+        // IMPORTANTE!!!!!! ESTO NO ES USADO ACTUALMENTE AQUÍ
+
+        // ES POSIBLE MODIFICARSE PARA USAR AQUÍ PERO NO ES RECOMENDABLE, 
+        // PREFIERA USAR MICROSERVICIO DE NOTIFICATIONS
+        
         return {
           transport: {
-         /*    host: process.env.MAIL_HOST, */
             service: 'gmail',
             host: 'smtp.gmail.com',
             port: 8000,
             secure: 'true',
-          /*   port: process.env.MAIL_PORT, */
             auth: {
               user: 'meetingflowing@gmail.com',
               pass: 'qccjccmfhonxbgfn',
@@ -34,4 +40,4 @@ import { HandlebarsAdapter } from '@nestjs-modules/mailer/dist/adapters/handleba
     }),
   ],
 })
-export class MailModule {}
+export class MailModule { }

@@ -36,13 +36,7 @@ export class ElementController {
 
     3. elementDTO:  ElementDTO: Objeto de transferencia de datos 
 
-*/
-
-  /*   @Post()
-    create(@Body() preMeetingDTO: PreMeetingDTO) {
-      return this.preMeetingService.create(preMeetingDTO);
-    } */
-
+  */
 
   // METODOS CRUD para elementos
 
@@ -62,7 +56,7 @@ export class ElementController {
   /*  
      Metodo para obtener todos los elementos.
      salida: objeto de elementos encontrados. 
-    */
+  */
   @Get()
   @ApiOperation({ summary: 'Obtener todos los elementos dialógicos ' })
   findAll() {
@@ -70,62 +64,62 @@ export class ElementController {
   }
 
   /*  
-     Metodo para  obtener un elemento a partir del email de usuarios encargados.
+     Metodo para  obtener elementos a partir del email de usuarios encargados.
      entrada: id del usuario encargado. 
      salida: objeto del elemento encontrada.  
   */
   @Get('/participants/:id')
-  @ApiOperation({ summary: 'Obtener elemento dialogico por id de usuario responsable' })
+  @ApiOperation({ summary: 'Obtener elementos por email de usuario responsable' })
   findOne(@Param('id') id: string) {
     return this._clientProxyElement.send(ElementMSG.FIND_ONE, id);
   }
 
   /*  
-    Metodo para  obtener un elemento a partir del id de la reunion.
+    Método para  obtener elementos a partir del id de la reunion.
     entrada: id de la reunion vinculada. 
     salida: objeto del elemento encontrado.  
-   */
+  */
   @Get('/meeting/:id')
-  @ApiOperation({ summary: 'Obtener elemento dialogico por id de reunión vinculada' })
+  @ApiOperation({ summary: 'Obtener elementos por id de reunión vinculada' })
   findByMeeting(@Param('id') id: string) {
     return this._clientProxyElement.send(ElementMSG.FIND_BY_MEET, id);
   }
 
   /*  
-    Metodo para  obtener un elemento a partir del id del proyecto.
+    Metodo para  obtener elementos a partir del id del proyecto.
     entrada: id del proyecto vinculado. 
     salida: objeto del elemento encontrado.  
    */
   @Get('/project/:id')
-  @ApiOperation({ summary: 'Obtener elemento dialogico por id de proyecto vinculado' })
+  @ApiOperation({ summary: 'Obtener elementos por id de proyecto vinculado' })
   findByProject(@Param('id') id: string) {
     return this._clientProxyElement.send(ElementMSG.FIND_BY_PROJECT, id);
   }
 
-    /*  
-    Metodo para  obtener un elemento a partir del id del proyecto.
-    entrada: id del proyecto vinculado. 
-    salida: objeto del elemento encontrado.  
-   */
-    @Get('/project/:idProject/user/:emailUser/state/:nameState')
-    @ApiOperation({ summary: 'Obtener elemento dialogico por id de proyecto vinculado' })
-    findByTProject(@Param('idProject') idProject: string,  @Param('emailUser') emailUser: string,  @Param('nameState') nameState: string) {
-      return this._clientProxyElement.send(ElementMSG.FIND_BY_T_PROJECT, {idProject, emailUser, nameState});
-    }
+  /*  
+  Método para  obtener un elemento a partir del id del proyecto, email de usuario y estado del elemento.
+  entrada: id del proyecto vinculado. 
+  salida: objeto del elemento encontrado.  
+  */
+  @Get('/project/:idProject/user/:emailUser/state/:nameState')
+  @ApiOperation({ summary: 'Obtener elemento dialogico por id de proyecto vinculado' })
+  findByTProject(@Param('idProject') idProject: string, @Param('emailUser') emailUser: string, @Param('nameState') nameState: string) {
+    return this._clientProxyElement.send(ElementMSG.FIND_BY_T_PROJECT, { idProject, emailUser, nameState });
+  }
 
   /*  
   Metodo para  obtener un elemento a partir del id del proyecto y email de usuario.
   entrada: id del proyecto vinculado. 
   salida: objeto del elemento encontrado.  
- */
+  */
   @Get('/project/:idProject/user/:emailUser')
   @ApiOperation({ summary: 'Obtener elemento dialogico por id de proyecto vinculado y email del usuario' })
-  findByUserProject(@Param('idProject') idProject: string, @Param('emailUser') emailUser: string ) {
-    return this._clientProxyElement.send(ElementMSG.FIND_BY_USER_PROJECT, {idProject, emailUser});
+  findByUserProject(@Param('idProject') idProject: string, @Param('emailUser') emailUser: string) {
+    return this._clientProxyElement.send(ElementMSG.FIND_BY_USER_PROJECT, { idProject, emailUser });
   }
 
   /*  
-   Metodo para  obtener un elemento en estado no terminado a partir del id del proyecto.
+   Metodo para  obtener los elementos en estado no terminado a partir del id del proyecto.
    entrada: id del proyecto vinculado. 
    salida: objeto del elemento encontrado.  
   */
@@ -140,7 +134,7 @@ export class ElementController {
   Metodo para actualizar un elemento a partir del id.
   entrada: id del elemento y nuevos datos del elemento. 
   salida: objeto del elemento actualizada.
- */
+  */
   @Put('/update/:id')
   @ApiOperation({ summary: 'Actualizar elemento dialógico por id' })
   update(@Param('id') id: string, @Body() elementDTO: ElementDTO) {
@@ -155,28 +149,10 @@ export class ElementController {
      Metodo para borrar permanentemente un elemento a partir del id.
      entrada: id del elemento.
      salida: valor booleano de confirmación.
-      */
+  */
   @Delete(':id')
   @ApiOperation({ summary: 'Borrar permanentemente un elemento dialógico por id' })
   delete(@Param('id') id: string) {
     return this._clientProxyElement.send(ElementMSG.DELETE, id);
   }
-
-  /*   @Post(':preMeetingId/meetingMinute/:meetingMinuteId')
-    async addGuest(
-      @Param('preMeetingId') preMeetingId: string,
-      @Param('meetingMinuteId') meetingMinuteId: string,
-    ) {
-      const meetingMinute = await this.meetingMinuteService.findOne(
-        meetingMinuteId,
-      );
-      if (!meetingMinute) {
-        throw new HttpException('Minuta no encontrada', HttpStatus.NOT_FOUND);
-      } else {
-        return this.preMeetingService.addMeetingMinute(
-          preMeetingId,
-          meetingMinuteId,
-        );
-      }
-    } */
 }

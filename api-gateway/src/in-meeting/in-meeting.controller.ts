@@ -18,7 +18,7 @@ export class InMeetingController {
   private _clientProxyInMeeting = this.clientProxy.clientProxyInMeeting();
 
   /* 
-Modelo estructural de datos:
+    Modelo estructural de datos:
 
     1. IInMeeting:    Interface
 
@@ -26,12 +26,12 @@ Modelo estructural de datos:
 
     3. inMeetingDTO:  InMeetingDTO: Objeto de transferencia de datos 
 
-*/
+  */
 
   // METODOS CRUD para en reuniones
 
   /*  
-  Metodo para crear una nueva fase de en reunión.
+  Método para crear una nueva fase de en reunión.
   entrada: datos de la en reunión. 
   salida: objeto de nueva en reunión.  
   */
@@ -42,9 +42,9 @@ Modelo estructural de datos:
   }
 
   /*  
- Metodo para obtener todas las fases de en reuniones.
- salida: objeto de reuniones encotradas. 
- */
+  Metodo para obtener todas las fases de en reuniones.
+  salida: objeto de reuniones encotradas. 
+  */
   @Get()
   @ApiOperation({ summary: 'Obtener todas las en-reuniones' })
   findAll(): Observable<IInMeeting[]> {
@@ -56,7 +56,6 @@ Modelo estructural de datos:
   entrada: id de la en reunión. 
   salida: objeto de la en reunión encontrada.  
   */
-
   @Get(':id')
   @ApiOperation({ summary: 'Obtener en-reunión por id' })
   findOne(@Param('id') id: string): Observable<IInMeeting> {
@@ -64,9 +63,9 @@ Modelo estructural de datos:
   }
 
   /*  
-     Metodo para actualizar una en reunión a partir del id.
-     entrada: id de la en reunión y nuevos datos de la en reunión. 
-     salida: objeto de la notificacion actualizada.
+  Metodo para actualizar una en reunión a partir del id.
+  entrada: id de la en reunión y nuevos datos de la en reunión. 
+  salida: objeto de la notificacion actualizada.
   */
   @Put(':id')
   @ApiOperation({ summary: 'Actualizar en-reunión por id' })

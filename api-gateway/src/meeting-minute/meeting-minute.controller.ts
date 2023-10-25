@@ -21,7 +21,7 @@ export class MeetingMinuteController {
   private _clientProxyMeetingMinute =
     this.clientProxy.clientProxyMeetingMinute();
 
-  // cliente proxy de actas dialógicas
+  // cliente proxy de notificaciones
   private _clientProxyNotifications =
     this.clientProxy.clientProxyNotification();
 
@@ -46,19 +46,17 @@ export class MeetingMinuteController {
   @Post()
   @ApiOperation({ summary: 'Crear una acta dialógica' })
   create(@Body() meetingMinuteDTO: MeetingMinuteDTO, @Req() req: any): Observable<IMeetingMinute> {
-    console.log('SOY CONTROLADOR ACTAS -> REQUEST.user = ', req.user);
     const params = {
       meetingMinuteDTO: meetingMinuteDTO,
       user: req.user
     }
-    /*  const newMeetingMinute = this.meetingMinuteService.create(meetingMinuteDTO) */
     return this._clientProxyMeetingMinute.send(MeetingMinuteMSG.CREATE, params);
   }
 
   /*  
-    Metodo para obtener todas las actas dialógicas.
-    salida: objeto de actas dialógicas encontradas. 
-   */
+  Metodo para obtener todas las actas dialógicas.
+  salida: objeto de actas dialógicas encontradas. 
+  */
   @Get()
   @ApiOperation({ summary: 'Obtener todas las actas dialógicas' })
   findAll(): Observable<IMeetingMinute> {
@@ -66,10 +64,10 @@ export class MeetingMinuteController {
   }
 
   /*  
-     Metodo para  obtener una acta dialógica a partir del id.
-     entrada: id de la acta dialógica. 
-     salida: objeto de la acta dialógica encontrada.  
-    */
+  Metodo para  obtener una acta dialógica a partir del id.
+  entrada: id de la acta dialógica. 
+  salida: objeto de la acta dialógica encontrada.  
+  */
   @Get(':id')
   @ApiOperation({ summary: 'Obtener acta dialógica por id' })
   findOne(@Param('id') id: string): Observable<IMeetingMinute> {
@@ -77,19 +75,17 @@ export class MeetingMinuteController {
   }
 
   /*  
-    Metodo para actualizar una acta dialógica a partir del id.
-    entrada: id de la acta dialógica y nuevos datos de la acta dialógica. 
-    salida: objeto de la acta dialógica actualizada.
-   */
+  Metodo para actualizar una acta dialógica a partir del id.
+  entrada: id de la acta dialógica y nuevos datos de la acta dialógica. 
+  salida: objeto de la acta dialógica actualizada.
+  */
   @Put(':id')
   @ApiOperation({ summary: 'Actualizar acta dialógica por id' })
   update(@Param('id') id: string, @Body() meetingMinuteDTO: MeetingMinuteDTO): Observable<IMeetingMinute> {
-    console.log("HGOLAASADASDASDSA")
     const params = {
       id: id,
       meetingMinuteDTO: meetingMinuteDTO
     }
-    console.log("[MEETING CONTROLLER] ME LLEGO ESTO PARA ACTUALIZAR: ", meetingMinuteDTO);
     return this._clientProxyMeetingMinute.send(MeetingMinuteMSG.UPDATE, params);
   }
 
@@ -97,29 +93,21 @@ export class MeetingMinuteController {
    Metodo para borrar permanentemente una acta dialógica a partir del id.
    entrada: id de la acta dialógica.
    salida: valor booleano de confirmación.
-    */
+  */
   @Delete(':id')
   @ApiOperation({ summary: 'Borrar permanentemente una acta dialógica por id' })
   delete(@Param('id') id: string): Observable<any> {
     return this._clientProxyMeetingMinute.send(MeetingMinuteMSG.DELETE, id);
   }
 
-  /*   @Post('notificar')
-    sendNotification(@Body() meetingMinuteDTO: MeetingMinuteDTO, @Req() req: Request ){
-        console.log("SOY CONTROLADOR ACTA NOTIFICAR -> REQUEST.user = ", req.user);
-        //const newMeetingMinute = this.meetingMinuteService.create(meetingMinuteDTO)
-        return this._clientProxyMeetingMinute.sendNotification(meetingMinuteDTO, req.user);
-    } */
-
   /*  
-     Metodo para notificar sobre un cambio de estado del acta dialógica.
-     entrada: id de la acta dialógica y nuevos datos de la acta dialógica. 
-     salida: objeto de la acta dialógica actualizada.
-    */
-  @Post('/notificar')
-  @ApiOperation({ summary: 'notificar cambio de estado del acta dialógica' })
+  Metodo para notificar sobre un cambio de estado del acta dialógica.
+  entrada: id de la acta dialógica y nuevos datos de la acta dialógica. 
+  salida: objeto de la acta dialógica actualizada.
+  */
+  @Post('/notify/state/change')
+  @ApiOperation({ summary: 'Notificar cambio de estado del acta dialógica' })
   sendNotification(@Body() meetingMinuteDTO: any, @Req() req: any) {
-    console.log("SOY CONTROLADOR ACTA NOTIFICAR -> REQUEST.user = ", req.user);
     const params = {
       meetingMinuteDTO: meetingMinuteDTO,
       user: req.user
@@ -128,14 +116,13 @@ export class MeetingMinuteController {
   }
 
   /*  
-     Metodo para notificar sobre un recordatorio de un elemento dialogico.
-     entrada: id del recordatorio y nuevos datos del recordatorio. 
-     salida: objeto de la notificacion del recordatorio actualizada.
-    */
-  @Post('/notificar/remember')
+  Metodo para notificar sobre un recordatorio de un elemento dialogico.
+  entrada: id del recordatorio y nuevos datos del recordatorio. 
+  salida: objeto de la notificacion del recordatorio actualizada.
+  */
+  @Post('/notify/reminder')
   @ApiOperation({ summary: 'notificar recordatorio de elemento dialógico' })
   sendNotificationRemember(@Body() remember: any, @Req() req: any) {
-    console.log("SOY CONTROLADOR ACTA NOTIFICAR -> REQUEST.user = ", req.user);
     const params = {
       remember: remember,
       user: req.user
@@ -144,44 +131,35 @@ export class MeetingMinuteController {
   }
 
   /*  
-     Metodo para notificar sobre un recordatorio de una tarea .
-     entrada: id del recordatorio y nuevos datos de la tarea . 
-     salida: objeto de la tarea y norificaion actualizada.
-    */
-  @Post('/notificary/remember/task')
-  @ApiOperation({ summary: 'notificar recordatorio de tarea ' })
+  Metodo para notificar sobre un recordatorio de una tarea .
+  entrada: id del recordatorio y nuevos datos de la tarea . 
+  salida: objeto de la tarea y norificaion actualizada.
+  */
+  @Post('/notify/reminder/task')
+  @ApiOperation({ summary: 'notificar recordatorio de tarea' })
   sendNotificationRememberTask(@Body() remember: any, @Req() req: any) {
     const params = {
       remember: remember,
       user: req.user
     }
-    console.log("SOY CONTROLADOR ACTA NOTIFICAR TAREA -> REQUEST.user = ", req.user);
-    console.log("SOY CONTROLADOR ACTA NOTIFICAR TAREA -> REMEMBER  = ", remember.milisec);
-    /*       const newMeetingMinute = this.meetingMinuteService.create(meetingMinuteDTO) */
     return this._clientProxyNotifications.send('sendNotificationRememberTask', params);
   }
 
-
-  /*   @Post('notificar')
-    sendNotification2(@Body() meetingMinuteDTO: MeetingMinuteDTO, @Req() req: any ){
-        console.log("SOY CONTROLADOR ACTA NOTIFICAR -> REQUEST.user = ", req.user);
-        const newMeetingMinute = this.meetingMinuteService.create(meetingMinuteDTO)
-        return this.meetingMinuteService.sendNotification(meetingMinuteDTO, req.user);
-    } */
-
-
-
-  /*   ENVIAR NOTIFIACION */
-
-  @Post('/notificarExternal')
+  /*  
+  Metodo para notificar a invitado externo para que registre e ingrese a la reunión.
+  entrada: acta dialogica completa . 
+  salida: correo electronico enviado a invitado externo.
+  */
+  @Post('/notify/user/external')
   @ApiOperation({ summary: 'notificar al invitado externo' })
   sendNotificationExternal(@Body() meetingMinuteDTO: any, @Req() req: any) {
     const params = {
       meetingMinuteDTO: meetingMinuteDTO,
       user: req.user
     }
-    console.log('[controller meeting-minute] ENVIANDO CORREO... ', params);
     return this._clientProxyNotifications.send('sendNotificationExternal', params);
   }
+
+
 
 }

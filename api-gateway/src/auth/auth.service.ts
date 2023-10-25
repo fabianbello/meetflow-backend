@@ -11,39 +11,45 @@ export class AuthService {
   constructor(
     private readonly clientProxy: ClientProxyMeetflow,
     private readonly jwtService: JwtService,
-  ) {}
+  ) { }
 
-  private _clientProxyUser  = this.clientProxy.clientProxyUser();
+  // cliente proxy de usuarios
+  private _clientProxyUser = this.clientProxy.clientProxyUser();
 
+  /*  
+   Metodo para validar un usuario ingresado
+   entrada: datos del usuario. 
+   salida: boolean de usuario validado
+  */
   async validateUser(username: string, password: string): Promise<any> {
-    const user = await this._clientProxyUser.send(UserMSG.VALID_USER, {username, password})
+    const user = await this._clientProxyUser.send(UserMSG.VALID_USER, { username, password })
   }
 
-  async signIn(loginDto: LoginDto){
+  /*  
+   Metodo para iniciar sesion de usuario
+   entrada: datos del usuario. 
+   salida: objeto del nuevo usuario.  
+  */
+  async signIn(loginDto: LoginDto) {
     const isExist = await this._clientProxyUser.send(UserMSG.VALID_USER, loginDto);
     return await this._clientProxyUser.send(UserMSG.VALID_USER, loginDto);
   }
 
-  async setToken(payload: any){
-    const token = await this.jwtService.sign(payload); 
+  /*  
+   Metodo para asginar token con una firma en especifica (id y email de usuario)
+   entrada: datos del usuario. 
+   salida: token jwt
+  */
+  async setToken(payload: any) {
+    const token = await this.jwtService.sign(payload);
     return await token;
   }
-
-  async esperate(loginDto: LoginDto): Promise<any>{
-    return await this._clientProxyUser.send(UserMSG.VALID_USER, loginDto);
-    
-  }
-
-  esperate2(loginDto: LoginDto){
-    return new Promise((resolve, reject) => {
-      resolve(this._clientProxyUser.send(UserMSG.VALID_USER, loginDto));
-    })
-  }
-
-  esperate3(loginDto: LoginDto){
-    return this._clientProxyUser.send(UserMSG.VALID_USER, loginDto);
-  }
-
+  
+  /*  
+     Metodo para crear un nuevo usuario.
+     entrada: datos del usuario. 
+     salida: objeto del nuevo usuario.  
+  */
   async signUp(userDTO: UserDTO) {
     return this._clientProxyUser.send(UserMSG.CREATE, userDTO);
   }

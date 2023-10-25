@@ -22,6 +22,9 @@ import { ApiOperation, ApiTags } from '@nestjs/swagger';
 @Controller('api/kanban')
 export class KanbanController {
 
+    // IMPORTANTE!!!!! FUNCIONALIDADES NO IMPLEMENTADAS EN DETALLE
+    // IMPORTANTE!!!!! FUNCIONALIDADES NO IMPLEMENTADAS EN DETALLE
+
     // Entrada: cliente proxy global
     constructor(private readonly clientProxy: ClientProxyMeetflow) { }
 
@@ -29,7 +32,7 @@ export class KanbanController {
     private _clientProxyKanban = this.clientProxy.clientProxyKanban();
 
     /* 
-   Modelo estructural de datos:
+    Modelo estructural de datos:
 
        1. IKanban:    Interface
 
@@ -37,7 +40,7 @@ export class KanbanController {
 
        3. kanbanDTO:  KanbanDTO: Objeto de transferencia de datos 
 
-   */
+    */
 
     // METODOS CRUD para kanban
 
@@ -53,7 +56,7 @@ export class KanbanController {
     }
 
     /*  
-     Metodo para obtener todos los tableros kanban.
+     Método para obtener todos los tableros kanban.
      salida: objeto de kanban encontrados. 
     */
     @Get('/ver/kanban')
@@ -64,22 +67,21 @@ export class KanbanController {
     }
 
     /*  
-    Metodo para  obtener una kanban a partir del id.
+    Método para  obtener una kanban a partir del id.
     entrada: id del kanban. 
     salida: objeto del kanban encontrada.  
-   */
+    */
     @Get(':id')
     @ApiOperation({ summary: 'Obtener tablero Kanban por id' })
     async findOne(@Param('id') id: string) {
-
         return await this._clientProxyKanban.send(KanbanMSG.FIND_ONE, id);
     }
 
     /*  
-   Metodo para actualizar un tablero kanban a partir del id.
-   entrada: id del kanban y nuevos datos del kanban. 
-   salida: objeto del kanban actualizado.
-  */
+    Método para actualizar un tablero kanban a partir del id.
+    entrada: id del kanban y nuevos datos del kanban. 
+    salida: objeto del kanban actualizado.
+    */
     @Put(':id')
     @ApiOperation({ summary: 'Actualizar tablero kanban por id' })
     async update(
@@ -90,9 +92,9 @@ export class KanbanController {
     }
 
     /*  
-   Metodo para borrar permanentemente un tablero kanban a partir del id.
-   entrada: id del kanban.
-   salida: valor booleano de confirmación.
+    Método para borrar permanentemente un tablero kanban a partir del id.
+    entrada: id del kanban.
+    salida: valor booleano de confirmación.
     */
     @Delete(':id')
     @ApiOperation({ summary: 'Borrar permanentemente un tablero Kanban por id' })
