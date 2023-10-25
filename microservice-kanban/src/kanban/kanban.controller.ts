@@ -20,31 +20,59 @@ export class KanbanController {
         private readonly kanbanService: KanbanService,
     ) { }
 
+    // IMPORTANTE!!!!! FUNCIONALIDADES NO IMPLEMENTADAS EN DETALLE
+    // IMPORTANTE!!!!! FUNCIONALIDADES NO IMPLEMENTADAS EN DETALLE
 
+    /* 
+    Modelo estructural de datos:
+
+       1. IKanban:    Interface
+
+       2. KanbanMSG:  Mensajeria por RabbitMQ
+
+       3. kanbanDTO:  KanbanDTO: Objeto de transferencia de datos 
+
+    */
+
+    // METODOS CRUD para kanban
+
+    /*  
+     Metodo para crear un kanban.
+     entrada: datos del kanban. 
+     salida: objeto de nueva kanban.  
+    */
     @MessagePattern(KanbanMSG.CREATE)
     async create(@Payload() payload: any) {
         return await this.kanbanService.create(payload);
     }
 
+    /*  
+     Método para obtener todos los tableros kanban.
+     salida: objeto de kanban encontrados. 
+    */
     @MessagePattern(KanbanMSG.FIND_ALL)
     async findAll() {
         return await this.kanbanService.findAll();
     }
 
-/*     @MessagePattern(KanbanMSG.FIND_ONE)
-    async findOne(@Payload() id: string) {
-        return await this.kanbanService.findOne(id);
-    }
- */
+    /*  
+     Metodo para actualizar un tablero kanban a partir del id.
+     entrada: id del kanban y nuevos datos del kanban. 
+     salida: objeto del kanban actualizado.
+     */
     @MessagePattern(KanbanMSG.UPDATE)
     async update(@Payload() payload: any) {
         return await this.kanbanService.update(payload.id, payload.taskDTO);
     }
 
+    /*  
+    Método para borrar permanentemente un tablero kanban a partir del id.
+    entrada: id del kanban.
+    salida: valor booleano de confirmación.
+    */
     @MessagePattern(KanbanMSG.DELETE)
     async delete(@Payload() id: string) {
         return await this.kanbanService.delete(id);
     }
-
 
 }

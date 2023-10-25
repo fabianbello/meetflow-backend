@@ -13,56 +13,44 @@ export class KanbanService {
     private readonly model: Model<IKanban>,
   ) { }
 
-  /*   async create(preMeetingDTO: PreMeetingDTO): Promise<IPreMeeting> {
-      const newMeetingMinute = new this.model(preMeetingDTO);
-      return await newMeetingMinute.save();
-    } */
-
+  /*  
+     Metodo para crear un kanban.
+     entrada: datos del kanban. 
+     salida: objeto de nueva kanban.  
+  */
   async create(kanbanDTO: KanbanDTO) {
     const newKanban = new this.model(kanbanDTO);
     console.log("Creando kanban ", newKanban);
     return await newKanban.save();
   }
 
+  /*  
+     Método para obtener todos los tableros kanban.
+     salida: objeto de kanban encontrados. 
+  */
   async findAll(): Promise<any> {
     console.log("Visualización de Kanban");
-    /* return await this.model.find(); */
     let params = {
       state: 'en desarrollo'
     }
     return params;
   }
 
-  async findOne(id: string): Promise<any> {
-    let params = {
-      state: 'en desarrollo'
-    }
-    return params;
-  }
-
-  async findByMeeting(id: string): Promise<IKanban[]> {
-    return await this.model.where({ meeting: [id] });
-  }
-
-  async findByProject(id: string): Promise<IKanban[]> {
-    return await this.model.where({ project: [id] })
-  }
-
-  async findByUser(id: string): Promise<IKanban[]> {
-    return await this.model.where({ participants: [id] })
-  }
-
-  async findByProjectPreview(id: string): Promise<IKanban[]> {
-    return await this.model.where({ project: [id], state: 'new' })
-  }
-
-
+  /*  
+     Metodo para actualizar un tablero kanban a partir del id.
+     entrada: id del kanban y nuevos datos del kanban. 
+     salida: objeto del kanban actualizado.
+  */
   async update(id: string, kanbanDTO: KanbanDTO): Promise<IKanban> {
     return await this.model.findByIdAndUpdate(id, kanbanDTO, {
       new: true,
     });
   }
-
+  /*  
+    Método para borrar permanentemente un tablero kanban a partir del id.
+    entrada: id del kanban.
+    salida: valor booleano de confirmación.
+  */
   async delete(id: string): Promise<any> {
     await this.model.findByIdAndDelete(id);
     return {
@@ -71,19 +59,4 @@ export class KanbanService {
     };
   }
 
-
-  async addMeetingMinute(
-    inMeetingId: String,
-    meetingMinuteId: string,
-  ): Promise<IKanban> {
-
-
-    return await this.model.findByIdAndUpdate(
-      inMeetingId,
-      {
-        $addToSet: { meetingMinutes: meetingMinuteId },
-      },
-      { new: true },
-    );
-  }
 }
