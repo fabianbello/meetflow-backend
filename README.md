@@ -34,7 +34,7 @@ En navegador:
 Cambiar variables según se estime necesario.
 
 # 2. Inicializar todos los microservicios:
-Em terminal ubicado en carpeta que contiene archivo docker-compose.ylm
+En terminal ubicado en carpeta que contiene archivo docker-compose.ylm
 1. docker-compose up --build -d
 
 
