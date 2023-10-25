@@ -31,7 +31,7 @@ En navegador:
 # Instalación local usando docker-compose:
 
 # 1. Revisar variables de entorno en archivo .env
-En carpeta principal cambiar variables según se estime necesario.
+Cambiar variables según se estime necesario.
 
 # 2. Inicializar todos los microservicios:
 Em terminal ubicado en carpeta que contiene archivo docker-compose.ylm
