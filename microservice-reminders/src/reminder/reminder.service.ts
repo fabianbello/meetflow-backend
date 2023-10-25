@@ -13,69 +13,53 @@ export class ReminderService {
         private readonly model: Model<IReminder>,
     ) { }
 
-    /*   async create(preMeetingDTO: PreMeetingDTO): Promise<IPreMeeting> {
-        const newMeetingMinute = new this.model(preMeetingDTO);
-        return await newMeetingMinute.save();
-      } */
-
+    /*  
+  Método para crear una nueva recordatorio.
+  entrada: datos del recordatorio. 
+  salida: objeto de nueva recordatorio.  
+  */
     async create(reminderDTO: ReminderDTO) {
         const newReminder = new this.model(reminderDTO);
-        console.log("RECORDATORIO AÑADIDO!: ", newReminder);
         return await newReminder.save();
     }
 
+    /*  
+      Método para  obtener todos los recordatorios
+    */
     async findAll(): Promise<IReminder[]> {
         return await this.model.find();
     }
 
+    /*  
+    Método para  obtener una recordatorio a partir del id.
+    entrada: id del recordatorio. 
+    salida: objeto del recordatorio encontrada.  
+    */
     async findOne(id: string): Promise<IReminder[]> {
-        return await this.model.where({email: [id]})
+        return await this.model.where({ email: [id] })
     }
 
-    async findByMeeting(id: string): Promise<IReminder[]> {
-        return await this.model.where({ meeting: [id] });
-    }
-
-    async findByProject(id: string): Promise<IReminder[]> {
-        return await this.model.where({ project: [id] })
-    }
-
-    async findByUser(id: string): Promise<IReminder[]> {
-        return await this.model.where({ participants: [id] })
-    }
-
-    async findByProjectPreview(id: string): Promise<IReminder[]> {
-        return await this.model.where({ project: [id], state: 'new' })
-    }
-
-
+    /*  
+    Método para actualizar un recordatorio a partir del id.
+    entrada: id del recordatorio y nuevos datos del recordatorio. 
+    salida: objeto de la recordatorio actualizada.
+  */
     async update(id: string, reminderDTO: ReminderDTO): Promise<IReminder> {
         return await this.model.findByIdAndUpdate(id, reminderDTO, {
             new: true,
         });
     }
 
+    /*  
+    Metodo para borrar permanentemente el recordatorio a partir del id.
+    entrada: id del recodatorio.
+    salida: valor booleano de confirmación.
+  */
     async delete(id: string): Promise<any> {
         await this.model.findByIdAndDelete(id);
         return {
             status: HttpStatus.OK,
             msg: 'Deleted',
         };
-    }
-
-
-    async addMeetingMinute(
-        inMeetingId: String,
-        meetingMinuteId: string,
-    ): Promise<IReminder> {
-
-
-        return await this.model.findByIdAndUpdate(
-            inMeetingId,
-            {
-                $addToSet: { meetingMinutes: meetingMinuteId },
-            },
-            { new: true },
-        );
     }
 }
