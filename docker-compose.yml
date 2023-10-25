@@ -3,7 +3,7 @@ version: '3.7'
 services:
 
   app:
-    image: fabianbello/app_meetflow:v34
+    image: fabianbello/app_meetflow:v54
     container_name: app_meetflow
     build:
       context: ./api-gateway
@@ -18,8 +18,34 @@ services:
     networks:
       - ms_meetflow
 
+  microservice-meetings:
+    image: fabianbello/microservice-meetings:v36
+    container_name: microservice-meetings
+    build:
+      context: ./microservice-meetings
+      dockerfile: Dockerfile
+    env_file: .env
+    depends_on:
+      - rabbitmq
+    restart: always
+    networks:
+      - ms_meetflow
+
+  microservice-users:
+    image: fabianbello/microservice-users:v25
+    container_name: microservice-users
+    build:
+      context: ./microservice-users
+      dockerfile: Dockerfile
+    env_file: .env
+    depends_on:
+      - rabbitmq
+    restart: always
+    networks:
+      - ms_meetflow
+
   microservice-premeetings:
-    image: fabianbello/microservice-premeetings:v20
+    image: fabianbello/microservice-premeetings:v21
     container_name: microservice-premeetings
     build:
       context: ./microservice-premeetings
@@ -32,7 +58,7 @@ services:
       - ms_meetflow
 
   microservice-postmeetings:
-    image: fabianbello/microservice-postmeetings:v20
+    image: fabianbello/microservice-postmeetings:v21
     container_name: microservice-postmeetings
     build:
       context: ./microservice-postmeetings
@@ -44,21 +70,8 @@ services:
     networks:
       - ms_meetflow
 
-  microservice-meetings:
-    image: fabianbello/microservice-meetings:v10
-    container_name: microservice-meetings
-    build:
-      context: ./microservice-meetings
-      dockerfile: Dockerfile
-    env_file: .env
-    depends_on:
-      - rabbitmq
-    restart: always
-    networks:
-      - ms_meetflow
-
   microservice-meetingminutes:
-    image: fabianbello/microservice-meetingminutes:v22
+    image: fabianbello/microservice-meetingminutes:v25
     container_name: microservice-meetingminutes
     build:
       context: ./microservice-meetingminutes
@@ -70,8 +83,21 @@ services:
     networks:
       - ms_meetflow
 
+  microservice-notifications:
+    image: fabianbello/microservice-notifications:v36
+    container_name: microservice-notifications
+    build:
+      context: ./microservice-notifications
+      dockerfile: Dockerfile
+    env_file: .env
+    depends_on:
+      - rabbitmq
+    restart: always
+    networks:
+      - ms_meetflow
+
   microservice-inmeetings:
-    image: fabianbello/microservice-inmeetings:v20
+    image: fabianbello/microservice-inmeetings:v21
     container_name: microservice-inmeetings
     build:
       context: ./microservice-inmeetings
@@ -84,7 +110,7 @@ services:
       - ms_meetflow
 
   microservice-elements:
-    image: fabianbello/microservice-elements:v31
+    image: fabianbello/microservice-elements:v32
     container_name: microservice-elements
     build:
       context: ./microservice-elements
@@ -97,7 +123,7 @@ services:
       - ms_meetflow
   
   microservice-projects:
-    image: fabianbello/microservice-projects:v20
+    image: fabianbello/microservice-projects:v21
     container_name: microservice-projects
     build:
       context: ./microservice-projects
@@ -109,11 +135,11 @@ services:
     networks:
       - ms_meetflow
 
-  microservice-guests:
-    image: fabianbello/microservice-guests:v20
-    container_name: microservice-guests
+  microservice-reminders:
+    image: fabianbello/microservice-reminders:v22
+    container_name: microservice-reminders
     build:
-      context: ./microservice-guests
+      context: ./microservice-reminders
       dockerfile: Dockerfile
     env_file: .env
     depends_on:
@@ -122,11 +148,24 @@ services:
     networks:
       - ms_meetflow
 
-  microservice-users:
-    image: fabianbello/microservice-users:v21
-    container_name: microservice-users
+  microservice-tasks:
+    image: fabianbello/microservice-tasks:v21
+    container_name: microservice-tasks
     build:
-      context: ./microservice-users
+      context: ./microservice-tasks
+      dockerfile: Dockerfile
+    env_file: .env
+    depends_on:
+      - rabbitmq
+    restart: always
+    networks:
+      - ms_meetflow
+
+  microservice-kanban:
+    image: fabianbello/microservice-kanban:v21
+    container_name: microservice-kanban
+    build:
+      context: ./microservice-kanban
       dockerfile: Dockerfile
     env_file: .env
     depends_on:

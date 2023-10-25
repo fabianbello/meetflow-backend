@@ -1,0 +1,61 @@
+# DATA BASE MONGO DB
+
+API_PORT=3000
+URI_MONGODB=mongodb+srv://Fabian:vcRUv4QUl65BLHji@cluster0.bnufw.mongodb.net/meetflow-ms
+
+
+# DATA BASE MYSQL DB
+
+
+
+# JWT 
+
+
+JWT_SECRET=clavesecreta2312
+
+EXPIRES_IN=12h
+
+
+# API
+
+
+APP_URL=https://meetflow.com
+
+PORT=3000
+
+
+# RABBIT MQ
+
+
+AMQP_URL_CLOUD=amqps://pwpkyuql:Hdtx-1VraNL-JIjQYMyc_hm6O7b94rGS@jackal.rmq.cloudamqp.com/pwpkyuql
+
+AMQP_URL=amqp://rabbitmq:5672
+
+# CREDENCIALES PARA EVENTOS
+
+# EMAIL
+MAIL_HOST=gmail.com
+MAIL_PORT=2525
+MAIL_SECURE=false
+# MAIL_USER=66b70c485921ad
+# MAIL_PASSWORD=79b1230fcfb7b5    
+# MAIL_FROM=info@test.com  
+MAIL_USER=meetingflowing@gmail.com
+# MAIL_PASSWORD=Meetflow123!    
+MAIL_PASSWORD=qccjccmfhonxbgfn
+MAIL_FROM=meetingflowing@gmail.com
+
+# BASE DE DATOS MYSQL USUARIOS LOCAL
+# HOST_DB_USER=localhost
+# PORT_DB_USER=5000
+# USERNAME_DB_USER=root
+# PASSWORD_DB_USER=admin
+# DATABASE_DB_USER=dbusers
+
+# BASE DE DATOS MYSQL USUARIOS REMOTO
+HOST_DB_USER=hostdbusers
+PORT_DB_USER=3306
+USERNAME_DB_USER=root
+PASSWORD_DB_USER=admin
+DATABASE_DB_USER=dbusers
+
