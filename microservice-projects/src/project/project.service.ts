@@ -9,35 +9,51 @@ import { ProjectDTO } from './dto/project.dto';
 export class ProjectService {
   constructor(
     @InjectModel(PROJECT.name) private readonly model: Model<IProject>,
-  ) {}
+  ) { }
 
-  async createProject(projectDTO: any){
-
-/*     const id = projectDTO.user.id;
-    projectDTO.userOwner = projectDTO.user.email;
-    projectDTO.userMembers = projectDTO.user.email; */
-  
+  /*  
+  Método para crear un nueva proyecto a partir de un usuario. 
+  (se autoasigna como jefe de proyecto al usuario que crea el proyecto)
+  entrada: datos del proyecto (nombre corto). 
+  salida: objeto de nueva proyecto.  
+  */
+  async createProject(projectDTO: any) {
     const newProject = new this.model(projectDTO);
     return await newProject.save();
 
   }
 
+  /*  
+  Método para  obtener todos los proyectos
+  */
   async findAll(): Promise<IProject[]> {
     return await this.model.find().populate('guests');
   }
 
+  /*  
+  Método para  obtener un proyecto a partir del id.
+  entrada: id del proyecto. 
+  salida: objeto del proyecto encontrada.  
+  */
   async findOne(id: string): Promise<IProject> {
-    console.log("BUSCANDO EN BASE DE DATOS PROYECTO CON EL ID:", id);
     const projectById = await this.model.findById(id);
-    console.log("ENCONTRAMOS EN LA BASE DE DATOS EL PROYECTO: ", projectById);
     return await this.model.findById(id);
-    
   }
 
+  /*  
+  Método para actualizar un proyecto a partir del id.
+  entrada: id del proyecto y nuevos datos del proyecto. 
+  salida: objeto del proyecto actualizada.
+  */
   async update(id: string, projectDTO: ProjectDTO): Promise<IProject> {
     return await this.model.findByIdAndUpdate(id, projectDTO, { new: true });
   }
 
+  /*  
+  Método para borrar permanentemente un proyecto a partir del id.
+  entrada: id del proyecto.
+  salida: valor booleano de confirmación.
+  */
   async delete(id: string) {
     await this.model.findByIdAndDelete(id);
     return {
@@ -46,6 +62,11 @@ export class ProjectService {
     };
   }
 
+  /*  
+  Método para añadir un invitado al proyecto.
+  entrada: id del proyecto e id del invitado
+  salida: objeto del proyecto con nuevo invitado añadido.  
+  */
   async addGuest(projectId: string, guestId: string): Promise<IProject> {
     return await this.model.findByIdAndUpdate(
       projectId,
@@ -56,15 +77,21 @@ export class ProjectService {
     ).populate('guests');
   }
 
-  async findAllForUser(user: any){
-
-    let projectsByUser = await this.model.find({"userMembers": user.email}); 
-  
-/*     console.log("PROYECTOS POR EL USUARIO ", user.email);
-    console.log("PROYECTOS = ", projectsByUser); */
+  /*  
+  Método para obtener todos los proyectos de un usuario por su id
+  entrada: id del usuario que solicita
+  salida: objeto del proyecto encontrado.  
+  */
+  async findAllForUser(user: any) {
+    let projectsByUser = await this.model.find({ "userMembers": user.email });
     return projectsByUser;
-
   }
+
+  /*  
+  Método para añadir un miembro al proyecto
+  entrada: email del usuario a añadir
+  salida: objeto del proyecto encontrado.  
+  */
   async addMember(projectId: string, memberEmail: string): Promise<IProject> {
     return await this.model.findByIdAndUpdate(
       projectId,
