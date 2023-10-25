@@ -16,11 +16,16 @@ En terminal:
 En terminal:
 1. docker run -d --name rabbitmq -p 5672:5672 -p 15672:15672 -e RABBITMQ_DEFAULT_USER=user -e RABBITMQ_DEFAULT_PASS=password rabbitmq:3-management
 
-# 3. Inicializar cada microservicio en sus correspondientes ubicaciones:
+# 3. Modificar archivos .env.development:
+Cambiar variables según se estime necesario.
+
+# 4. Inicializar cada microservicio en sus correspondientes ubicaciones:
 En terminal:
 1. npm install
 2. npm run start:dev
 
-# 4. Modificar archivos .env.development:
-Cambiar variables según se estime necesario.
+# 5. Consultar métodos API soportados:
+En navegador:
+1. Ingresar al enlace: "http://localhost:3000/api/docs"
+
 
