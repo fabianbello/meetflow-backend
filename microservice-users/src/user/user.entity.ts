@@ -7,48 +7,32 @@ import {
 
 @Entity({ name: 'users' })
 export class User {
-  @PrimaryGeneratedColumn('uuid') // incremental id
-  id: string;
-  @Column({ length: 100 })
-  name: string;
+  @PrimaryGeneratedColumn('uuid')
+  id: string;  // incremental id
+  @Column({ length: 100 }) 
+  name: string; // nombre del usuario
   @Column({ length: 100, unique: true })
-  email: string;
+  email: string; // email del usuario
   @Column({ length: 100, default: 'Sin institución' })
-  institution: string;
+  institution: string; // institución del usuario
   @Column({ length: 100})
-  password: string;
+  password: string; // contraseña del usuario
   @Column({ length: 100,  default: 'white'  })
-  color: string;
+  color: string; //  color que aparece en las siglas del nombre como perfil
   @Column({ length: 100,  default: ''  })
-  currentProject: string;
+  currentProject: string; // nombre del último proyecto visitado
   @Column({ length: 100,  default: ''  })
-  currentProjectId: string;
+  currentProjectId: string; // id del último proyecto visitado
   @Column({ length: 100,  default: ''  })
-  currentMeeting: string;
+  currentMeeting: string; // nombre de la última reunion visitada
   @Column({ length: 100,  default: ''  })
-  currentMeetingId: string;
+  currentMeetingId: string; // id de la última reunión visistada
   @Column({ length: 100,  default: ''  })
-  lastLink: string;
+  lastLink: string; // último link visitado dentro de la plataforma
   @Column({ length: 100,  default: ''  })
-  tagName: string;
-
-
-
-
+  tagName: string; // 3 siglas que representan el nombre del usuario
   @Column({ type: 'boolean', default: false })
-  active: boolean;
-  @Column({ type: 'uuid', unique: false, name: 'activation_token', default: 'default' })
-  activationToken: string;
-
-
-  @Column({
-    type: 'uuid',
-    unique: true,
-    name: 'reset_password_token',
-    nullable: true,
-  })
-  resetPasswordToken: string;
-
-  @CreateDateColumn({ name: 'create_on' }) // nos pone la fecha en que se creo
-  createOn: Date;
+  active: boolean; // si usuario esta bloqueado o no bloqueado dentro de la plataforma
+  @CreateDateColumn({ name: 'create_on' }) 
+  createOn: Date; // fecha de creación del usuario
 }

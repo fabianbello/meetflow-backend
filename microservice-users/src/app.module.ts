@@ -15,20 +15,19 @@ import { UserModule } from './user/user.module';
     TypeOrmModule.forRoot({
 
       type: 'mysql',
-
       // PRODUCCION
-     /*        host: "hostdbusers",
-            port: 3306, */
-
+      /* host: "hostdbusers",
+        port: 3306, */
       // LOCAL
-      host: 'localhost',
-      port: 5000,
-
-      username: 'root',
-      password: 'admin',
-      database: 'dbusers',
+      /* host: 'localhost',
+      port: 5000, */
+      host: process.env.HOST_DB_USER,
+      port: parseInt(process.env.PORT_DB_USER),
+      username: process.env.USERNAME_DB_USER,
+      password: process.env.PASSWORD_DB_USER,
+      database: process.env.DATABASE_DB_USER,
       entities: [User],
-      synchronize: true, // se actualiza automaticamente (no poner en producion)
+      synchronize: true, // se actualiza automaticamente (no poner en produción)
     }),
     UserModule,
   ],
