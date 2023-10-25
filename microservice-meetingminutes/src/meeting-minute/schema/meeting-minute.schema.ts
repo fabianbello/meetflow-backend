@@ -1,40 +1,22 @@
 import * as mongoose from 'mongoose';
 
 export const MeetingMinuteSchema = new mongoose.Schema({
-  title: { type: String, required: false },
-  place: { type: String, required: false },
-  startTime: { type: String, required: false },
-  endTime: { type: String, required: false },
-  endHour: { type: String, required: false },
-  startHour: { type: String, required: false },
-  /* topics: [
-    {
-      description: String,
-      artifact: [{ specification: String, mode: String, responsible: String }],
-    },
-  ], */
-  topics: [{type: String}],
-
-  /* usuarios */
-
-  // Todos
-  participants: [{type: String}], // todos
-
-  // invitados
-  assistants: [{type: String}], // Asistentes que si fueron a la reunion
-  externals: [{type: String}],  // Los que son miembros del proyecto
- 
-  // organizadores
-  secretaries: [{type: String}],
-  leaders: [{type: String}],
-
-  links: [{type: String}],
-  realStartTime: {type: String},
-  realEndTime: {type: String},
-  number: { type: Number, required: false },
-  meeting: { type: mongoose.Schema.Types.ObjectId, ref: 'meetings' },
- /*  meeting: { type: String, required: false }, */
-/*   topics: [{ type: mongoose.Schema.Types.ObjectId, ref: 'topics' } ], */
-
+  title: { type: String, required: false }, // Objetivo del acta
+  place: { type: String, required: false }, // lugar
+  startTime: { type: String, required: false }, // fecha de llamado
+  endTime: { type: String, required: false }, // fecha estimada de termino
+  endHour: { type: String, required: false },  // hora estimada de finalización
+  startHour: { type: String, required: false }, // hora estimada de inicio
+  topics: [{type: String}], // nombres de los temas añadidos al acta
+  participants: [{type: String}], // emails de invitados
+  assistants: [{type: String}], // emails de invitados que si asistieron
+  externals: [{type: String}],  // emails de usuarios invitados externamente (no miembros del proyecto)
+  secretaries: [{type: String}], // emails de secretarios
+  leaders: [{type: String}], // emails de anfitriones
+  links: [{type: String}], // enlaces añadidos
+  realStartTime: {type: String}, // fecha y hora real de inicio de "en-reunión"
+  realEndTime: {type: String}, // fecha y hora real de término de "en-reunión"
+  number: { type: Number, required: false }, // numbero de la reunión asociada
+  meeting: { type: mongoose.Schema.Types.ObjectId, ref: 'meetings' }, // id de la reunion asociada
 });
 MeetingMinuteSchema.index({ id: 1 }, { unique: false });
