@@ -9,14 +9,14 @@ import { HandlebarsAdapter } from '@nestjs-modules/mailer/dist/adapters/handleba
         return {
           transport: {
          /*    host: process.env.MAIL_HOST, */
-            service: 'gmail',
-            host: 'smtp.gmail.com',
-            port: 8000,
+            service: process.env.EMAIL_SERVICE,
+            host: process.env.EMAIL_HOST,
+            port: parseInt(process.env.EMAIL_PORT),
             secure: 'true',
           /*   port: process.env.MAIL_PORT, */
             auth: {
-              user: 'meetingflowing@gmail.com',
-              pass: 'qccjccmfhonxbgfn',
+              user: process.env.EMAIL_USER,
+              pass: process.env.EMAIL_PASS,
             },
           },
           defaults: {

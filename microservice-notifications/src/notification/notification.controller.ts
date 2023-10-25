@@ -1,12 +1,4 @@
 import {
-    Body,
-    Delete,
-    Get,
-    HttpException,
-    HttpStatus,
-    Param,
-    Post,
-    Put,
     Controller
 } from '@nestjs/common';
 import { NotificationService } from './notification.service';
@@ -59,7 +51,6 @@ export class NotificationController {
     */
     @MessagePattern(NotificationMSG.FIND_ONE)
     async findOne(@Payload() id: string) {
-        console.log("recivimos de que la api quiere los recordatorios de alguien")
         return await this.notificationService.findOne(id);
     }
 
@@ -82,43 +73,44 @@ export class NotificationController {
     async delete(@Payload() id: string) {
         return await this.notificationService.delete(id);
     }
+    
     /*
     Metodo para enviar un correo a usuario externo
     */
     @MessagePattern('sendNotificationExternal')
     async sendNotificationExternal(@Payload() payload: any) {
-        console.log('[controller notifications] ENVIANDO CORREO... ', payload);
         return this.notificationService.sendNotificationExternal(payload.meetingMinuteDTO, payload.user);
-        
     }
 
-        /*
+    /*
     Metodo para enviar un correo a usuario invitados
     */
     @MessagePattern('sendNotification')
     async sendNotification(@Payload() payload: any) {
-        console.log('[controller notifications] ENVIANDO CORREO... ', payload);
-        return this.notificationService.sendNotification(payload.meetingMinuteDTO, payload.user);
-        
+        return this.notificationService.sendNotification(payload.meetingMinuteDTO, payload.user);  
     }
 
-            /*
+    /*
     Metodo para enviar un correo a un recordatorio
     */
     @MessagePattern('sendNotificationRemember')
     async sendNotificationRemember(@Payload() payload: any) {
-        console.log('[controller notifications] ENVIANDO CORREO REMEMBER... ', payload);
         return this.notificationService.sendNotificationRemember(payload.remember, payload.user);
-        
     }
 
-                /*
+    /*
     Metodo para enviar un correo a un recordatorio de tarea
     */
     @MessagePattern('sendNotificationRememberTask')
     async sendNotificationRememberTask(@Payload() payload: any) {
-        console.log('[controller notifications] ENVIANDO CORREO REMEMBER... ', payload);
-        return this.notificationService.sendNotificationRememberTask(payload.remember, payload.user);
-        
+        return this.notificationService.eventActivationTime(payload.remember, payload.remember.milisec, payload.user);   
+    }
+
+    /*
+    Metodo para enviar una nueva contraseña al usuario 
+    */
+    @MessagePattern('SEND_PASS')
+    async sendResetPass(@Payload() user: any) {
+        return this.notificationService.sendResetPass(user);
     }
 }
